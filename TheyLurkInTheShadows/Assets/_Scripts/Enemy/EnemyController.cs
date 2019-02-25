@@ -98,7 +98,21 @@ public class EnemyController : MonoBehaviour {
             transform.LookAt(player.transform);
         }
 
+        if (firstResponder)
+        {
+            if (!playerInSight)
+            {
+                firstResponder = false;
+            }
+        }
 
+        if (fr_Object != null)
+        {
+            if(fr_Object.GetComponent<EnemyController>().playerInSight == false)
+            {
+                alerted = false;
+            }
+        }
 
 
 
