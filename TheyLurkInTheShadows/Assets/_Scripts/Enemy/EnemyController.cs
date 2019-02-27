@@ -40,6 +40,7 @@ public class EnemyController : MonoBehaviour {
     {
         Guard,
         Patrol,
+        AlertTime,
         Alert,
         investigating,
         Searching,
@@ -71,8 +72,13 @@ public class EnemyController : MonoBehaviour {
 
         if(state == State.Guard || state == State.Patrol)
         {
-            if (playerInSight)
-                state = State.Alert;
+            if (playerInSight && !alerted)
+            {
+                
+                state = State.AlertTime;
+              
+            }
+                
 
             nav.stoppingDistance = 0;
             transform.LookAt(null);
@@ -223,6 +229,33 @@ public class EnemyController : MonoBehaviour {
                     state = State.Guard;
                 }
                 break;
+
+            case State.AlertTime:
+                int timesrun = 0;
+                if (playerInSight)
+                {
+                    transform.LookAt(player.transform.position);
+                    if(timerReset == true)
+                    {
+                        
+                        timer = 100 / player.GetComponent<TestLAT>().visibility * 0.3f;
+                        timerReset = false;
+                    }
+                    timer -= Time.deltaTime;
+                    if (timer <= 0)
+                    {
+                        timerReset = true;
+                        state = State.Alert;
+                    }
+                }
+                else
+                {
+                    timerReset = true;
+                    state = State.Patrol;
+                }
+                timesrun++;
+                break;
+
             case State.Alert:
                 //seen player, dead body, or alerted by other enemy
                 if (alerted)
