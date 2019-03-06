@@ -1440,6 +1440,8 @@ MonoBehaviour:
   lights: []
   attackTimer: 1
   playerAnimator: {fileID: 1052411176}
+  punchCollider: {fileID: 24784920}
+  kickCollider: {fileID: 501560631}
 --- !u!1 &620787913
 GameObject:
   m_ObjectHideFlags: 0

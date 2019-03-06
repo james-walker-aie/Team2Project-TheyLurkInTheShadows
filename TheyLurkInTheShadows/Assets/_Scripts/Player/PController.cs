@@ -11,14 +11,14 @@ public class PController : MonoBehaviour
     public float runSpeed;
     public float movementSpeed;
     public float visibility;
+    public float attackTimer = 1f;
+    public float health = 100;
 
     public bool hidden;
     private bool isWalking;
     private bool isRunning;
 
     public List<Transform> lights = new List<Transform>();
-
-    public float attackTimer = 1f;
 
     private Rigidbody playerRB;
 
@@ -27,6 +27,9 @@ public class PController : MonoBehaviour
 
     public Animator playerAnimator;
 
+    public GameObject punchCollider;
+    public GameObject kickCollider;
+
     void Start()
     {
         playerRB = GetComponent<Rigidbody>();
@@ -34,16 +37,12 @@ public class PController : MonoBehaviour
 
     void Update()
     {
-
-
         playerMovementInput = Quaternion.Euler(0, 45, 0) * new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         playerVelocity = playerMovementInput * movementSpeed;
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
             transform.rotation = Quaternion.LookRotation(playerMovementInput);
         }
-
-
 
         if (Input.GetKey(KeyCode.W) == true || Input.GetKey(KeyCode.A) == true || Input.GetKey(KeyCode.S) == true || Input.GetKey(KeyCode.D) == true)
         {
@@ -85,8 +84,6 @@ public class PController : MonoBehaviour
             movementSpeed = walkSpeed;
         }
 
-
-
         attackTimer -= Time.deltaTime;
 
         if (Input.GetKeyDown(KeyCode.Mouse0) == true && attackTimer < 0)
@@ -94,6 +91,11 @@ public class PController : MonoBehaviour
             attackTimer = 1f;
             //playerAnimator.applyRootMotion = true;
             playerAnimator.SetBool("IsPunching", true);
+
+            if (attackTimer > 0)
+            {
+                punchCollider.SetActive(true);
+            }
 
 
         }
@@ -104,6 +106,10 @@ public class PController : MonoBehaviour
             //playerAnimator.applyRootMotion = true;
             playerAnimator.SetBool("IsKicking", true);
 
+            if (attackTimer > 0)
+            {
+                kickCollider.SetActive(true);
+            }
 
         }
 
@@ -113,6 +119,12 @@ public class PController : MonoBehaviour
             playerAnimator.SetBool("IsPunching", false);
             playerAnimator.SetBool("IsKicking", false);
 
+        }
+
+        if (attackTimer < 0)
+        {
+            punchCollider.SetActive(false);
+            kickCollider.SetActive(false);
         }
 
         if (lights.Count > 0)
@@ -147,7 +159,6 @@ public class PController : MonoBehaviour
         {
             visibility = 10;
         }
-
 
     }
 
