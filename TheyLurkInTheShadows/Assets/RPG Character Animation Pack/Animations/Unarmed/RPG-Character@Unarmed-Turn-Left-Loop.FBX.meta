@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ee3f6855efebfea47a86e97063404386
+guid: 4a370bb6970fe6240b493e2d11e46806
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -143,7 +143,7 @@ ModelImporter:
       average position error 4.8 mm and maximum position error 6.6 mm at time 0:10
       (100.0%) Frame 10\n\tLeftLowerArm average position error 3.5 mm and maximum
       position error 4.6 mm at time 0: 0 (0.0%) Frame 0\n\tLeftHand average position
-      error 4.4 mm and maximum position error 6.2 mm at time 0: 0 (0.0%) Frame 0\n\tRightUpperArm
+      error 4.4 mm and maximum position error 6.2 mm at time 0:10 (100.0%) Frame 10\n\tRightUpperArm
       average position error 4.7 mm and maximum position error 5.1 mm at time 0: 5
       (50.0%) Frame 5\n\tRightLowerArm average position error 1.8 mm and maximum position
       error 2.1 mm at time 0: 5 (50.0%) Frame 5\n\tRightHand average position error

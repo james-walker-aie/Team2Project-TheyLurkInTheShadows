@@ -11,7 +11,7 @@ public class PController : MonoBehaviour
     public float runSpeed;
     public float movementSpeed;
     public float visibility;
-    public float attackTimer = 1f;
+    public float attackTimer = 2f;
     public float health = 100;
 
     public bool hidden;
@@ -27,8 +27,9 @@ public class PController : MonoBehaviour
 
     public Animator playerAnimator;
 
-    public GameObject punchCollider;
-    public GameObject kickCollider;
+    public GameObject attackCollider;
+
+    public Transform sightSync;
 
     void Start()
     {
@@ -90,11 +91,11 @@ public class PController : MonoBehaviour
         {
             attackTimer = 1f;
             //playerAnimator.applyRootMotion = true;
-            playerAnimator.SetBool("IsPunching", true);
+            playerAnimator.SetBool("IsAttacking", true);
 
             if (attackTimer > 0)
             {
-                punchCollider.SetActive(true);
+                attackCollider.SetActive(true);
             }
 
 
@@ -102,29 +103,25 @@ public class PController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse1) == true && attackTimer < 0)
         {
-            attackTimer = 1f;
+            attackTimer = 2.5f;
             //playerAnimator.applyRootMotion = true;
-            playerAnimator.SetBool("IsKicking", true);
+            playerAnimator.SetBool("IsBackstabbing", true);
 
-            if (attackTimer > 0)
-            {
-                kickCollider.SetActive(true);
-            }
+
 
         }
 
         if (attackTimer < 0)
         {
             playerAnimator.applyRootMotion = false;
-            playerAnimator.SetBool("IsPunching", false);
-            playerAnimator.SetBool("IsKicking", false);
+            playerAnimator.SetBool("IsAttacking", false);
+            playerAnimator.SetBool("IsBackstabbing", false);
 
         }
 
         if (attackTimer < 0)
         {
-            punchCollider.SetActive(false);
-            kickCollider.SetActive(false);
+            attackCollider.SetActive(false);
         }
 
         if (lights.Count > 0)
@@ -164,7 +161,7 @@ public class PController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        playerVelocity.y = playerRB.velocity.y;
         playerRB.velocity = playerVelocity;
 
     }

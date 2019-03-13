@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a39489f42d0605645a90e4dd7e5f6356
+guid: 17588cd533a988a4a8ad61d9486ece77
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -268,8 +268,8 @@ ModelImporter:
       0 (0.0%) Frame 0\n\tRightLowerArm average position error 23.8 mm and maximum
       position error 39.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightHand average position
       error 20.8 mm and maximum position error 37.0 mm at time 0: 0 (0.0%) Frame 0\n\tHead
-      average position error 50.5 mm and maximum position error 68.8 mm at time 1:18
-      (100.0%) Frame 48\n"
+      average position error 50.5 mm and maximum position error 68.8 mm at time 0:
+      0 (0.0%) Frame 0\n"
     animationDoRetargetingWarnings: 1
     importAnimatedCustomProperties: 0
     importConstraints: 0
