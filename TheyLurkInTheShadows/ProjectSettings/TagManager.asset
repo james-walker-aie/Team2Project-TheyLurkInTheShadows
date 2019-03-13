@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Bush
   - Enemy
+  - EC_ctrl
+  - BackStab
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - 
   - Sight
   - Enemy
-  - 
+  - Ground
   - 
   - 
   - 

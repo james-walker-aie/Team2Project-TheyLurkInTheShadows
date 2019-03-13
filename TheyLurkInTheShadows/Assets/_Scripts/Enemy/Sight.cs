@@ -44,7 +44,7 @@ public class Sight : MonoBehaviour
                     
 
                     Debug.DrawRay(this.sightSinc.transform.position, (inSight[i].GetComponentInChildren<Transform>().position - this.sightSinc.transform.position) * hit.distance, Color.red);
-                    Debug.Log("hit: " + hit.collider.gameObject + " im: " + gameObject.name);
+                    
                     
                     switch (hit.collider.GetComponent<Transform>().tag)
                     {
@@ -55,14 +55,14 @@ public class Sight : MonoBehaviour
                             {
                                 if (hit.collider.GetComponent<PController>().hidden == false)
                                 {
-                                    Debug.Log("Player");
+                                    
                                     GetComponentInParent<EnemyController>().playerInSight = true;
                                 }
                                 else
                                 {
                                     if(GetComponentInParent<EnemyController>().state == EnemyController.State.Searching && GetComponentInParent<EnemyController>().searchingSpot)
                                     {
-                                        Debug.Log("Player Found");
+                                        
                                         GetComponentInParent<EnemyController>().playerInSight = true;
                                         GetComponentInParent<EnemyController>().state = EnemyController.State.Chase;
 
@@ -70,7 +70,7 @@ public class Sight : MonoBehaviour
                                     }
                                     else
                                     {
-                                        Debug.Log("Player Hidden");
+                                        //Debug.Log("Player Hidden");
                                     }
                                     
                                 }
@@ -137,7 +137,7 @@ public class Sight : MonoBehaviour
 
                             break;
                         default:
-                            Debug.Log("in switch but no matching tags");
+                            
                             GetComponentInParent<EnemyController>().playerInSight = false;
                             break;
 
@@ -145,12 +145,12 @@ public class Sight : MonoBehaviour
 
                     }
 
-                    Debug.Log("Raycast4");
+                    
 
                 }
                 else
                 {
-                    Debug.DrawRay(this.sightSinc.transform.position, (inSight[i].GetComponentInChildren<Transform>().position - this.sightSinc.transform.position) * 100, Color.red);
+                    //Debug.DrawRay(this.sightSinc.transform.position, (inSight[i].GetComponentInChildren<Transform>().position - this.sightSinc.transform.position) * 100, Color.red);
                 }
             }
         }
@@ -161,26 +161,25 @@ public class Sight : MonoBehaviour
         if (other.tag == "Player" || other.tag == "Enemy")
         {
 
-            Debug.Log("Player in trigger");
-            if (other.transform.GetChild(0) != self)
+            
+            if(other.tag == "Player")
             {
-                if (inSight.Count <= 0)
+                
+                if (!inSight.Contains(other.transform.GetComponent<PController>().sightSync))
                 {
-                    inSight.Add(other.transform.GetChild(0));
+                    inSight.Add(other.transform.GetComponent<PController>().sightSync);
                 }
-                else
+
+            }
+            else
+            if(other.tag == "Enemy")
+            {
+                if (!inSight.Contains(other.GetComponent<EnemyController>().sightSync.transform))
                 {
-                    for (int i = 0; i <= inSight.Count; i++)
-                    {
-                        
-                        if (other.transform.GetChild(0) != inSight[i])
-                        {
-                            inSight.Add(other.transform.GetChild(0));
-                        }
-                        
-                    }
+                    inSight.Add(other.GetComponent<EnemyController>().sightSync.transform);
                 }
             }
+            
         }
     }
 
@@ -189,21 +188,30 @@ public class Sight : MonoBehaviour
 
         if (other.tag == "Player" || other.tag == "Enemy")
         {
-            for (int i = 0; i < inSight.Count; i++)
+            
+            if (other.tag == "Player")
             {
-                if (inSight[i].GetComponentInParent<Transform>().tag == "Player")
-                {
-                    Debug.Log("inside player sight if");
-                    gameObject.GetComponentInParent<EnemyController>().playerInSight = false;
-                }
-
-                if (other.transform.GetChild(0) == inSight[i])
-                {
                     
-                    inSight.Remove(other.transform.GetChild(0));
+                gameObject.GetComponentInParent<EnemyController>().playerInSight = false;
+                if (inSight.Contains(other.transform.GetComponent<PController>().sightSync))
+                {
+
+                    inSight.Remove(other.transform.GetComponent<PController>().sightSync);
                 }
             }
 
+
+            
+
+            if (other.tag == "Enemy")
+            {
+                
+                if (inSight.Contains(other.GetComponent<EnemyController>().sightSync.transform))
+                {
+                    
+                    inSight.Remove(other.GetComponent<EnemyController>().sightSync.transform);
+                }
+            }
         }
     }
 
