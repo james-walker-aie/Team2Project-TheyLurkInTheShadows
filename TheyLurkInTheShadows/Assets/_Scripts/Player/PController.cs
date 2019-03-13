@@ -10,11 +10,15 @@ public class PController : MonoBehaviour
     public float walkSpeed;
     public float runSpeed;
     public float movementSpeed;
-
+    public float visibility;
+    public float attackTimer = 1f;
+    public float health = 100;
 
     public bool hidden;
-    private bool isSprinting;
-    public bool isMoving;
+    private bool isWalking;
+    private bool isRunning;
+
+    public List<Transform> lights = new List<Transform>();
 
     private Rigidbody playerRB;
 
@@ -23,6 +27,9 @@ public class PController : MonoBehaviour
 
     public Animator playerAnimator;
 
+    public GameObject punchCollider;
+    public GameObject kickCollider;
+
     void Start()
     {
         playerRB = GetComponent<Rigidbody>();
@@ -30,16 +37,6 @@ public class PController : MonoBehaviour
 
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) == true)
-        {
-            movementSpeed = runSpeed;
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift) == true)
-        {
-            movementSpeed = walkSpeed;
-        }   
-
         playerMovementInput = Quaternion.Euler(0, 45, 0) * new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         playerVelocity = playerMovementInput * movementSpeed;
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
@@ -47,7 +44,27 @@ public class PController : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(playerMovementInput);
         }
 
-        if (movementSpeed == walkSpeed)
+        if (Input.GetKey(KeyCode.W) == true || Input.GetKey(KeyCode.A) == true || Input.GetKey(KeyCode.S) == true || Input.GetKey(KeyCode.D) == true)
+        {
+            if (Input.GetKey(KeyCode.LeftShift) == true)
+            {
+                isRunning = true;
+                isWalking = false;
+
+            }
+            else
+            {
+                isWalking = true;
+                isRunning = false;
+            }
+        }
+        else
+        {
+            isWalking = false;
+            isRunning = false;
+        }
+
+        if (isWalking == true)
         {
             playerAnimator.SetBool("IsWalking", true);
         }
@@ -56,19 +73,91 @@ public class PController : MonoBehaviour
             playerAnimator.SetBool("IsWalking", false);
         }
 
-        if (movementSpeed == runSpeed)
+        if (isRunning == true)
         {
             playerAnimator.SetBool("IsRunning", true);
+            movementSpeed = runSpeed;
         }
         else
         {
             playerAnimator.SetBool("IsRunning", false);
+            movementSpeed = walkSpeed;
         }
 
-        if (playerRB.velocity.magnitude == 0)
+        attackTimer -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) == true && attackTimer < 0)
         {
-            playerAnimator.SetBool("IsWalking", false);
-            playerAnimator.SetBool("IsRunning", false);
+            attackTimer = 1f;
+            //playerAnimator.applyRootMotion = true;
+            playerAnimator.SetBool("IsPunching", true);
+
+            if (attackTimer > 0)
+            {
+                punchCollider.SetActive(true);
+            }
+
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1) == true && attackTimer < 0)
+        {
+            attackTimer = 1f;
+            //playerAnimator.applyRootMotion = true;
+            playerAnimator.SetBool("IsKicking", true);
+
+            if (attackTimer > 0)
+            {
+                kickCollider.SetActive(true);
+            }
+
+        }
+
+        if (attackTimer < 0)
+        {
+            playerAnimator.applyRootMotion = false;
+            playerAnimator.SetBool("IsPunching", false);
+            playerAnimator.SetBool("IsKicking", false);
+
+        }
+
+        if (attackTimer < 0)
+        {
+            punchCollider.SetActive(false);
+            kickCollider.SetActive(false);
+        }
+
+        if (lights.Count > 0)
+        {
+            Transform clsLight = null;
+            float dis = 0;
+
+            for (int i = 0; i < lights.Count; i++)
+            {
+                if (clsLight == null)
+                {
+                    clsLight = lights[i];
+                    dis = Vector3.Distance(clsLight.transform.position, this.transform.position);
+                }
+                else
+                {
+                    float dist2 = Vector3.Distance(lights[i].transform.position, this.transform.position);
+                    if (dist2 < dis)
+                    {
+                        clsLight = lights[i];
+                        dis = dist2;
+                    }
+                }
+            }
+
+            float disToLight = Vector3.Distance(clsLight.transform.position, transform.position);
+            Debug.Log(disToLight);
+            float vis = visibility;
+            visibility = 100 / disToLight * 4f;
+        }
+        else
+        {
+            visibility = 10;
         }
 
     }
