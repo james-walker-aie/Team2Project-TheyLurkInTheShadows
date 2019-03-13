@@ -129,7 +129,7 @@ public class EnemyController : MonoBehaviour
             state = State.Dead;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) )
+        /*if (Input.GetKeyDown(KeyCode.Mouse0) )
         {
             state = State.Hit;
             if(timer <= 0)
@@ -137,7 +137,7 @@ public class EnemyController : MonoBehaviour
                 timer = .5f;
             }
             
-        }
+        }*/
 
         if(distance > 2)
         {
@@ -816,7 +816,24 @@ public class EnemyController : MonoBehaviour
             case State.Dead:
                 //dead
                 sight.SetActive(false);
-                //GetComponent<CapsuleCollider>().isTrigger = true;
+                ResetAnimationBools();
+                anim.SetBool("Dead", true);
+                nav.enabled = false;
+                GetComponent<CapsuleCollider>().enabled = false;
+                GetComponent<Rigidbody>().isKinematic = true;
+                if (c_ctrl.GetComponent<EnemyCombatCtrl>().enemies.Contains(this.transform))
+                {
+                    c_ctrl.GetComponent<EnemyCombatCtrl>().enemies.Remove(this.transform);
+                }
+                if (c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup1.Contains(this.transform))
+                {
+                    c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup1.Remove(this.transform);
+                }
+                if (c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup2.Contains(this.transform))
+                {
+                    c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup2.Remove(this.transform);
+                }
+                GetComponent<EnemyController>().enabled = false;
 
 
                 break;
