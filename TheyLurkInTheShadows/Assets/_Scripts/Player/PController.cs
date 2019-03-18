@@ -17,6 +17,7 @@ public class PController : MonoBehaviour
     public bool hidden;
     private bool isWalking;
     private bool isRunning;
+    private bool canBackstab;
 
     public List<Transform> lights = new List<Transform>();
 
@@ -28,6 +29,7 @@ public class PController : MonoBehaviour
     public Animator playerAnimator;
 
     public GameObject attackCollider;
+    public GameObject backstabCollider;
 
     public Transform sightSync;
 
@@ -90,7 +92,6 @@ public class PController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0) == true && attackTimer < 0)
         {
             attackTimer = 1f;
-            //playerAnimator.applyRootMotion = true;
             playerAnimator.SetBool("IsAttacking", true);
 
             if (attackTimer > 0)
@@ -103,11 +104,18 @@ public class PController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse1) == true && attackTimer < 0)
         {
-            attackTimer = 2.5f;
-            //playerAnimator.applyRootMotion = true;
-            playerAnimator.SetBool("IsBackstabbing", true);
 
+            if (canBackstab == true)
+            {
+                attackTimer = 2.5f;
+                playerAnimator.SetBool("IsBackstabbing", true);
 
+                if (attackTimer > 0)
+                {
+                    backstabCollider.SetActive(true);
+                }
+
+            }
 
         }
 
@@ -122,6 +130,7 @@ public class PController : MonoBehaviour
         if (attackTimer < 0)
         {
             attackCollider.SetActive(false);
+            backstabCollider.SetActive(false);
         }
 
         if (lights.Count > 0)
@@ -172,13 +181,23 @@ public class PController : MonoBehaviour
         {
             hidden = true;
         }
+
+        if (other.gameObject.tag == "BackStab")
+        {
+            canBackstab = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Bush")
+        if (other.tag == "BackStab")
         {
             hidden = false;
+        }
+
+        if (other.gameObject.tag == "Enemy")
+        {
+            canBackstab = false;
         }
     }
 }
