@@ -90,14 +90,26 @@ public class EnemyCombatCtrl : MonoBehaviour
                 }
             }
                 
-
-            if (timer <= 0)
+            if(AttackGroup1.Count > 0)
             {
-                int Rand = Random.Range(0, AttackGroup1.Count);
+                if (timer <= 0)
+                {
+                    int Rand = Random.Range(0, AttackGroup1.Count);
 
-                AttackGroup1[Rand].GetComponent<EnemyController>().canAttack = true;
 
-                timer = 5;
+                    if (AttackGroup1[Rand] != null)
+                    {
+                        if(AttackGroup1[Rand].GetComponent<EnemyController>().distance <= 4)
+                        {
+                            if(AttackGroup1[Rand].GetComponent<EnemyController>().state != EnemyController.State.Block && AttackGroup1[Rand].GetComponent<EnemyController>().state != EnemyController.State.Hit)
+                                AttackGroup1[Rand].GetComponent<EnemyController>().canAttack = true;
+
+                            timer = 3;
+                        }
+                        
+                    }
+                }
+      
             }
 
         }

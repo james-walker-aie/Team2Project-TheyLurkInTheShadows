@@ -23,7 +23,11 @@ public class DamageColliders : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             Debug.Log("Collision has occured");
-
+            if(other.GetComponent<EnemyController>().state != EnemyController.State.Dead)
+            {
+                other.GetComponent<EnemyController>().state = EnemyController.State.BeingAttacked;
+            }
+            
             other.gameObject.GetComponent<EnemyController>().health -= damage;
         }
     }

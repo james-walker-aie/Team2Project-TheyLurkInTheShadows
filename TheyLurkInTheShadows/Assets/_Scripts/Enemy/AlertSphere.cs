@@ -87,6 +87,30 @@ public class AlertSphere : MonoBehaviour
         }
         
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.tag == "Enemy")
+        {
+            other.gameObject.GetComponentInParent<EnemyController>().alerted = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.tag == "Bush")
+        {
+            if (gameObject.GetComponentInParent<EnemyController>().hidingSpots.Contains(other.transform))
+                gameObject.GetComponentInParent<EnemyController>().hidingSpots.Remove(other.transform);
+        }
+
+        if(other.tag == "Enemy")
+        {
+            if (gameObject.GetComponentInParent<EnemyController>().nearByEnemies.Contains(other.transform))
+                gameObject.GetComponentInParent<EnemyController>().nearByEnemies.Remove(other.transform);
+            other.gameObject.GetComponentInParent<EnemyController>().alerted = false;
+        }
+    }
 }
 
     
