@@ -17,5 +17,13 @@ public class PCamera : MonoBehaviour
         transform.position = smoothedPos;
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.F) == true)
+        {
+
+        }
+    }
+
 
 }

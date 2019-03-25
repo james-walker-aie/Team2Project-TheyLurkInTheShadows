@@ -19,17 +19,27 @@ public class BlinkParticles : MonoBehaviour
         source = GetComponent<AudioSource>();
     }
 
-    void Update()
+    /*void Update()
     {
-            
 
-        if (Input.GetKeyDown(KeyCode.F) == true)
+        if(GetComponent<Blink>().invalid == false)
         {
-            GameObject particleInstance;
-            particleInstance = Instantiate(particlePrefab, particleTargetLocation) as GameObject;
-            source.PlayOneShot(blinkSound, volume);
+            if (Input.GetKeyDown(KeyCode.F) == true)
+            {
+                if (GetComponent<Blink>().currentTime > 5 && GetComponent<Blink>().distance < GetComponent<Blink>().MaxRange)
+                {
+                    GameObject particleInstance;
+                    particleInstance = Instantiate(particlePrefab, particleTargetLocation) as GameObject;
+                    source.PlayOneShot(blinkSound, volume);
+                }
+            }
         }
+    }*/
 
-
+    public void BlinkParticleTrigger()
+    {
+        GameObject particleInstance;
+        particleInstance = Instantiate(particlePrefab, particleTargetLocation) as GameObject;
+        source.PlayOneShot(blinkSound, volume);
     }
 }

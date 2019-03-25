@@ -25,6 +25,7 @@ public class PController : MonoBehaviour
 
     private Vector3 playerMovementInput;
     private Vector3 playerVelocity;
+    public Vector3 playerToMouse;
 
     public Animator playerAnimator;
 
@@ -42,10 +43,13 @@ public class PController : MonoBehaviour
     {
         playerMovementInput = Quaternion.Euler(0, 45, 0) * new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         playerVelocity = playerMovementInput * movementSpeed;
-        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
-        {
-            transform.rotation = Quaternion.LookRotation(playerMovementInput);
-        }
+
+
+        playerAnimator.SetFloat("MovementBlendX", ((Quaternion.Euler(0, 135, 0) * playerRB.rotation) * new Vector3(-Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"))).normalized.x);
+        playerAnimator.SetFloat("MovementBlendY", ((Quaternion.Euler(0, 315, 0) * playerRB.rotation) * new Vector3(-Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"))).normalized.z);
+
+
+        PlayerRotation();
 
         if (Input.GetKey(KeyCode.W) == true || Input.GetKey(KeyCode.A) == true || Input.GetKey(KeyCode.S) == true || Input.GetKey(KeyCode.D) == true)
         {
@@ -133,6 +137,7 @@ public class PController : MonoBehaviour
             backstabCollider.SetActive(false);
         }
 
+
         if (lights.Count > 0)
         {
             Transform clsLight = null;
@@ -172,6 +177,28 @@ public class PController : MonoBehaviour
     {
         playerVelocity.y = playerRB.velocity.y;
         playerRB.velocity = playerVelocity;
+
+    }
+
+    void PlayerRotation()
+    {
+        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit floorHit;
+
+        if (Physics.Raycast(camRay, out floorHit))
+        {
+            playerToMouse = floorHit.point - transform.position;
+
+            playerToMouse.y = 0f;
+
+            Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
+
+            playerRB.MoveRotation(newRotation);
+
+        }
+
+
 
     }
 
