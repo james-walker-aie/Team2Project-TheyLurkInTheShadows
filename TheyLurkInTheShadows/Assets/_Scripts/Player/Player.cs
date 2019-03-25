@@ -1,11 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] Image playerHealthIcon;
+    [SerializeField] bool isPlayer = false;
+    int currentHealth;
     public int health = 100;
     public int level = 1;
+
+    public void PlayerHealthUI()
+    {
+        if (isPlayer)
+        {
+            playerHealthIcon.fillAmount = currentHealth / health;
+        }
+        //health icon code to go here
+    }
 
     public void SavePlayer()
     {
