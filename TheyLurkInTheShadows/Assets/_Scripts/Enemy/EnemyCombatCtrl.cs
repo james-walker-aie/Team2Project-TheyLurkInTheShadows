@@ -23,7 +23,43 @@ public class EnemyCombatCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(enemies.Count != 0)
+        if(E1 != null)
+        {
+            if (E1.GetComponent<EnemyController>().state == EnemyController.State.Dead)
+            {
+                E1 = null;
+            }
+        }
+        
+
+        if (E2 != null)
+        {
+            if (E2.GetComponent<EnemyController>().state == EnemyController.State.Dead)
+            {
+                E2 = null;
+            }
+        }
+        
+
+        if (E3 != null)
+        {
+            if (E3.GetComponent<EnemyController>().state == EnemyController.State.Dead)
+            {
+                E3 = null;
+            }
+        }
+        
+
+        if (E4 != null)
+        {
+            if (E4.GetComponent<EnemyController>().state == EnemyController.State.Dead)
+            {
+                E4 = null;
+            }
+        }
+       
+
+        if (enemies.Count != 0)
         {
             timer -= Time.deltaTime;
 
@@ -99,13 +135,37 @@ public class EnemyCombatCtrl : MonoBehaviour
 
                     if (AttackGroup1[Rand] != null)
                     {
-                        if(AttackGroup1[Rand].GetComponent<EnemyController>().distance <= 4)
+                        if(AttackGroup1[Rand].GetComponent<EnemyController>().Class == EnemyController.Type.Basic)
                         {
-                            if(AttackGroup1[Rand].GetComponent<EnemyController>().state != EnemyController.State.Block && AttackGroup1[Rand].GetComponent<EnemyController>().state != EnemyController.State.Hit)
-                                AttackGroup1[Rand].GetComponent<EnemyController>().canAttack = true;
+                            if (AttackGroup1[Rand].GetComponent<EnemyController>().distance <= 4)
+                            {
+                                if (AttackGroup1[Rand].GetComponent<EnemyController>().state != EnemyController.State.Block && AttackGroup1[Rand].GetComponent<EnemyController>().state != EnemyController.State.Hit)
+                                    AttackGroup1[Rand].GetComponent<EnemyController>().canAttack = true;
 
-                            timer = 3;
+                                timer = 3;
+                            }
                         }
+                        else
+                        if(AttackGroup1[Rand].GetComponent<EnemyController>().Class == EnemyController.Type.Heavy)
+                        {
+                            if (AttackGroup1[Rand].GetComponent<EnemyController>().distance <= 4)
+                            {
+                                if (AttackGroup1[Rand].GetComponent<EnemyController>().state != EnemyController.State.Block && AttackGroup1[Rand].GetComponent<EnemyController>().state != EnemyController.State.Hit)
+                                    AttackGroup1[Rand].GetComponent<EnemyController>().canAttack = true;
+
+                                timer = 3;
+                            }
+                            else
+                            if(AttackGroup1[Rand].GetComponent<EnemyController>().distance <= 6)
+                            {
+                                if (AttackGroup1[Rand].GetComponent<EnemyController>().state != EnemyController.State.Block && AttackGroup1[Rand].GetComponent<EnemyController>().state != EnemyController.State.Hit)
+                                    AttackGroup1[Rand].GetComponent<EnemyController>().canAttack = true;
+                                timer = 3;
+                            }
+
+                        }
+
+                        
                         
                     }
                 }
@@ -133,7 +193,7 @@ public class EnemyCombatCtrl : MonoBehaviour
         {
             
             float dSqrToTarget = Vector3.Distance(player.transform.position, potentialTarget.transform.position);
-            if (potentialTarget != E1 && potentialTarget != E2 && potentialTarget != E3 && potentialTarget != E4)
+            if (potentialTarget != E1 && potentialTarget != E2 && potentialTarget != E3 && potentialTarget != E4 && potentialTarget.GetComponent<EnemyController>().state != EnemyController.State.Dead)
             {
                 if (dSqrToTarget < closestDistanceSqr)
                 {

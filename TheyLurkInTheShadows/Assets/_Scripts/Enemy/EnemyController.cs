@@ -45,6 +45,7 @@ public class EnemyController : MonoBehaviour
     public int rotateSpeed = 20;
     public int AttackGroup = 0;
     public int num;
+    int lastAttack;
 
     [Header("GameObjects")]
     public GameObject alertSphere;
@@ -52,6 +53,8 @@ public class EnemyController : MonoBehaviour
     public GameObject sightSync;
     public GameObject fr_Object;
     public GameObject Blood;
+    public GameObject Special;
+    public GameObject Smash;
     GameObject c_ctrl;
     GameObject player;
 
@@ -112,6 +115,17 @@ public class EnemyController : MonoBehaviour
     }
     public State state;
     public State uClass { get { return state; } }
+
+    public enum Type
+    {
+       Basic,
+       Heavy,
+       Ninja,
+       Ranged
+
+    }
+    public Type Class;
+    public Type rClass { get { return Class; } }
 
 
     // Use this for initialization
@@ -174,7 +188,16 @@ public class EnemyController : MonoBehaviour
 
         if (state == State.Chase)
         {
-            nav.speed = 3.5f;
+            if(Class == Type.Basic)
+            {
+                nav.speed = 3.5f;
+            }
+            else
+            if(Class == Type.Heavy)
+            {
+                nav.speed = 3.5f / 2;
+            }
+            
         }
 
         if (playerInSight)
@@ -246,7 +269,16 @@ public class EnemyController : MonoBehaviour
 
                 if (!Guard)
                 {
-                    nav.speed = 3f;
+                    if (Class == Type.Basic)
+                    {
+                        nav.speed = 3f;
+                    }
+                    else
+                    if (Class == Type.Heavy)
+                    {
+                        nav.speed = 3 / 2;
+                    }
+                    
                     if (posTarget == Vector3.zero && patrolSpots.Count > 0)
                     {
 
@@ -285,7 +317,15 @@ public class EnemyController : MonoBehaviour
             case State.Patrol:
                 //go from point to point
                 run = 0;
-                nav.speed = 3f;
+                if (Class == Type.Basic)
+                {
+                    nav.speed = 3f;
+                }
+                else
+                if (Class == Type.Heavy)
+                {
+                    nav.speed = 3 / 2;
+                }
                 if (!inGuardSpot && !patrolling)
                 {
                     float lowestDist = 10000f;
@@ -341,7 +381,7 @@ public class EnemyController : MonoBehaviour
 
             case State.AlertTime:
                 int timesrun = 0;
-                Debug.Log("Alerttime 1");
+                
                 if (playerInSight)
                 {
                     
@@ -390,29 +430,29 @@ public class EnemyController : MonoBehaviour
                     }
                     
                     
-                    Debug.Log("Alerttime 2");
+                    
                     Rotation();
                     if (timerReset == true)
                     {
-                        Debug.Log("Alerttime 3");
+                       
                         timer = 100 / player.GetComponent<PController>().visibility * 0.5f;
                         timerReset = false;
                     }
                     timer -= Time.deltaTime;
                     if (timer <= 0)
                     {
-                        Debug.Log("Alerttime 4");
+                        
                         timerReset = true;
                         state = State.Alert;
                     }
                 }
                 else
                 {
-                    Debug.Log("Alerttime 5");
+                    
                     timerReset = true;
                     state = State.Patrol;
                 }
-                Debug.Log("Alerttime 6");
+                
                 timesrun++;
                 lastPos = transform.position;
                 break;
@@ -464,7 +504,7 @@ public class EnemyController : MonoBehaviour
                 //Debug.Log("Searching");
                 if (searchInt > hidingSpots.Count)
                 {
-                    Debug.Log("SADWADWADASD");
+                    
 
                     state = State.Patrol;
                 }
@@ -480,7 +520,7 @@ public class EnemyController : MonoBehaviour
                 }
                 if (hidingSpots.Count != 0)
                 {
-                    Debug.Log("Search1");
+                    
                     if(searchInt < hidingSpots.Count)
                     {
                         nav.SetDestination(hidingSpots[searchInt].position);
@@ -490,12 +530,12 @@ public class EnemyController : MonoBehaviour
                         state = State.Patrol;
                     }
                     
-                    Debug.Log("Search2");
+                    
                     float sDis = Vector3.Distance(hidingSpots[searchInt].position, transform.position);
-                    Debug.Log("Search3");
+                    
                     if (sDis < 3)
                     {
-                        Debug.Log("Search4");
+                        
                         if (timerReset == true)
                         {
                             timer = 5f;
@@ -728,13 +768,13 @@ public class EnemyController : MonoBehaviour
 
                 float chance;
                 chance = Random.Range(0f, 1f);
-                if (chance < 0.3f)
+                if (chance < 0.4f)
                 {
                     timer = .5f;
                     state = State.Block;
                 }
                 else
-                if(chance > 0.3f && chance < 0.4f)
+                if(chance > 0.4f && chance < 0.7f)
                 {
                     timer = 1;
                     state = State.Roll;
@@ -754,37 +794,9 @@ public class EnemyController : MonoBehaviour
                 canAttack = false;
                 nav.enabled = false;
                 anim.applyRootMotion = true;
-                num = Random.Range(0, 4);
+                Attack();
                 
-                if(timer <= 0)
-                {
-                    Debug.Log("Attack2");
-                    switch (num)
-                    {
-                        case 0:
-                            ResetAnimationBools();
-                            anim.SetBool("Attack1", true);
-                            timer = .8f;
-                            break;
-                        case 1:
-                            ResetAnimationBools();
-                            anim.SetBool("Attack2", true);
-                            timer = .8f;
-                            break;
-                        case 2:
-                            ResetAnimationBools();
-                            anim.SetBool("Combo1", true);
-                            timer = 2.5f;
-                            break;
-                        case 3:
-                            ResetAnimationBools();
-                            anim.SetBool("Combo2", true);
-                            timer = 2.4f;
-                            break;
-                    }
-                    Debug.Log("Attack3");
-                }
-                Debug.Log("Attack4");
+                
                 timer -= Time.deltaTime;
                 if(timer <= 0 && timer > -5)
                 {
@@ -877,12 +889,23 @@ public class EnemyController : MonoBehaviour
                 {
                     c_ctrl.GetComponent<EnemyCombatCtrl>().enemies.Remove(this.transform);
                 }
+                /*
                 if (c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup1.Contains(this.transform))
                 {
                     c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup1.Remove(this.transform);
                 }
                 if (c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup2.Contains(this.transform))
                 {
+                    c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup2.Remove(this.transform);
+                }*/
+                if(AttackGroup == 1)
+                {
+                    
+                    c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup1.Remove(this.transform);
+                }
+                else
+                {
+                    
                     c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup2.Remove(this.transform);
                 }
                 GetComponent<EnemyController>().enabled = false;
@@ -946,14 +969,14 @@ public class EnemyController : MonoBehaviour
         //forward
         if (Physics.Raycast(sp, transform.forward, out hitFoward, d + .05f,layerMask))
         {
-            Debug.Log("aaaaaa");
+            
             if (hitFoward.collider.tag == "Player")
             {
                 hitP = true;
                
                 F = true;
                 //nav.stoppingDistance = 3f;
-                Debug.Log("yyyyyyy" + gameObject.name);
+                
                 //pos = player.transform.position;
                 
 
@@ -964,7 +987,7 @@ public class EnemyController : MonoBehaviour
                 hitP = false;
                 F = true;
                 //nav.stoppingDistance = 0;
-                Debug.Log("GGGG");
+                
 
                 //pos = mPosR;
             }
@@ -1060,7 +1083,7 @@ public class EnemyController : MonoBehaviour
         //Left
         if (Physics.Raycast(sp + ((transform.forward + -transform.right) * 2), Vector3.down * (d * 2), out hitL, d,layerMask))
         {
-            Debug.Log("dddddddd");
+            
 
             mPosL = hitL.point;
 
@@ -1070,7 +1093,7 @@ public class EnemyController : MonoBehaviour
         //right
         if (Physics.Raycast(sp + ((transform.forward + transform.right)), Vector3.down, out hitR, d, layerMask))
         {
-            Debug.Log("Rrrrrrrr");
+            
             mPosR = hitR.point;
 
         }
@@ -1079,7 +1102,7 @@ public class EnemyController : MonoBehaviour
         //Back
         if (Physics.Raycast(sp + -transform.forward, Vector3.down, out hitB, d, layerMask))
         {
-            //Debug.Log("Rrrrrrrr");
+            
             mPosB = hitB.point;
 
         }
@@ -1153,8 +1176,146 @@ public class EnemyController : MonoBehaviour
 
     void Hit()
     {
-        if(hit)
+        if (hit)
+        {
             player.GetComponent<PController>().health -= 10;
+            
+            if (GetComponentInChildren<HitColliders>().Heavy2)
+            {
+                Debug.Log("Hit");
+                Instantiate(Special,Smash.transform.position, this.transform.rotation);
+
+                GetComponentInChildren<HitColliders>().Heavy2 = false;
+                hit = false;
+            }
+            
+        }
+        
     }
 
+    void Attack()
+    {
+        if(distance <= 4)
+        {
+            num = Random.Range(0, 4);
+            if (num == lastAttack)
+            {
+                switch (num)
+                {
+                    case 0:
+                        num = 1;
+                        break;
+                    case 1:
+                        num = 2;
+                        break;
+                    case 2:
+                        num = 3;
+                        break;
+                    case 3:
+                        num = 0;
+                        break;
+                }
+                    
+            }
+        }
+        else
+        if(Class == Type.Heavy && distance > 4)
+        {
+            num = 1;
+            GetComponentInChildren<HitColliders>().Heavy2 = true;
+        }
+        
+
+        switch (Class)
+        {
+            case Type.Basic:
+                if (timer <= 0)
+                {
+                    
+                    switch (num)
+                    {
+                        case 0:
+                            ResetAnimationBools();
+                            if(leap)
+                                anim.SetBool("Lunge", true);
+
+                            anim.SetBool("Attack1", true);
+                            timer = .8f;
+                            lastAttack = 0;
+                            break;
+                        case 1:
+                            ResetAnimationBools();
+                            if (leap)
+                                anim.SetBool("Lunge", true);
+                            anim.SetBool("Attack2", true);
+                            timer = .8f;
+                            lastAttack = 1;
+                            break;
+                        case 2:
+                            ResetAnimationBools();
+                            if (leap)
+                                anim.SetBool("Lunge", true);
+                            anim.SetBool("Combo1", true);
+                            timer = 2.5f;
+                            lastAttack = 2;
+                            break;
+                        case 3:
+                            ResetAnimationBools();
+                            if (leap)
+                                anim.SetBool("Lunge", true);
+                            anim.SetBool("Combo2", true);
+                            timer = 2.4f;
+                            lastAttack = 3;
+                            break;
+                    }
+                }
+                break;
+            case Type.Heavy:
+                
+                if (timer <= 0)
+                {
+                    
+                    switch (num)
+                    {
+                        case 0:
+                            ResetAnimationBools();
+                            if (leap)
+                                anim.SetBool("Lunge", true);
+                            anim.SetBool("Attack1", true);
+                            timer = .8f;
+                            lastAttack = 0;
+                            break;
+                        case 1:
+                            ResetAnimationBools();
+                            if (leap)
+                                anim.SetBool("Lunge", true);
+                            anim.SetBool("Attack2", true);
+                            GetComponentInChildren<HitColliders>().Heavy2 = true;
+                            leap = false;
+                            timer = 2.3f;
+                            lastAttack = 1;
+                            break;
+                        case 2:
+                            ResetAnimationBools();
+                            if (leap)
+                                anim.SetBool("Lunge", true);
+                            anim.SetBool("Combo1", true);
+                            timer = 2.5f;
+                            lastAttack = 2;
+                            break;
+                        case 3:
+                            ResetAnimationBools();
+                            if (leap)
+                                anim.SetBool("Lunge", true);
+                            anim.SetBool("Combo2", true);
+                            timer = 2.4f;
+                            lastAttack = 3;
+                            break;
+                    }
+                }
+
+                break;
+        }
+
+    }
 }
