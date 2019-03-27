@@ -105,6 +105,7 @@ public class EnemyController : MonoBehaviour
         BeingAttacked,
         Attack,
         Block,
+        Blocked,
         Roll,
         Aggro,
         Chase,
@@ -214,7 +215,7 @@ public class EnemyController : MonoBehaviour
         Vector3 worldDeltaPosition = posTarget - transform.position;
         float dx = Vector3.Dot(transform.right, worldDeltaPosition);
         float dy = Vector3.Dot(transform.forward, worldDeltaPosition);
-        Vector2 deltaPosition = new Vector2(dx, dy);
+        Vector2 deltaPosition = new Vector2(dx, dy).normalized;
 
         // Low-pass filter the deltaMove
         float smooth = Mathf.Min(1.0f, Time.deltaTime / 0.15f);
@@ -509,6 +510,7 @@ public class EnemyController : MonoBehaviour
                     state = State.Patrol;
                 }
                 transform.LookAt(null);
+                IfMoving(lastPos);
                 if (playerInSight)
                 {
                     state = State.Chase;
@@ -591,7 +593,7 @@ public class EnemyController : MonoBehaviour
                         }
                     }
                 }
-
+                lastPos = this.transform.position;
                 break;
 
             case State.LastPos:
@@ -672,67 +674,8 @@ public class EnemyController : MonoBehaviour
                 //Debug.Log("Pos: " + pos);
                 /////////////////////////////////////////////////////////////////
 
+                IfMoving(lastPos);
 
-                //detect if moved//
-                bool x = false;
-                bool z = false;
-                float xf = 0;
-                float zf = 0;
-
-                if (transform.position.x > lastPos.x)
-                {
-                    xf = transform.position.x - lastPos.x;
-                    if (xf > 0.01)
-                        x = true;
-                }
-                else
-                {
-                    xf = lastPos.x - transform.position.x;
-                    if (xf > 0.01)
-                        x = true;
-                }
-
-
-                if (transform.position.z > lastPos.z)
-                {
-                    zf = transform.position.z - lastPos.z;
-                    if (zf > 0.01)
-                        z = true;
-                }
-                else
-                {
-                    zf = lastPos.z - transform.position.z;
-                    if (zf > 0.01)
-                        z = true;
-                }
-                //////////////////////////
-
-                //set animation to combat movement//
-                if (!x && !z)
-                {
-                    ResetAnimationBools();
-                    anim.SetBool("cMove", false);
-                    anim.SetFloat("Idle", 1);
-                }
-                else
-                {
-                    ResetAnimationBools();
-                    if(distance < 5)
-                    {
-                        anim.SetBool("cMove", true);
-                    }
-                    else
-                    {
-                        anim.SetBool("Moving", true);
-                    }
-                    
-                }
-                
-
-                ////////////////////////////////////////////////////
-
-                
-                
                 //Go back to aggro state//
                 if (distance > 10 && !alerted)
                 {
@@ -820,6 +763,19 @@ public class EnemyController : MonoBehaviour
                     
 
                 break;
+            case State.Blocked:
+
+                ResetAnimationBools();
+                anim.SetBool("Blocked", true);
+                timer -= Time.deltaTime;
+                if (timer <= 0)
+                {
+                    nav.enabled = true;
+                    ResetAnimationBools();
+                    state = State.Combat;
+                }
+
+                    break;
             case State.Roll:
                 Rotation();
                 nav.enabled = false;
@@ -844,7 +800,7 @@ public class EnemyController : MonoBehaviour
                 if (anim.GetBool("Hit") == false)
                 {
                     Blood.GetComponent<ParticleSystem>().Play();
-                   
+                    health -= 20;
                 }
 
 
@@ -920,18 +876,59 @@ public class EnemyController : MonoBehaviour
     {
         if (other.tag == "Bush")
         {
+            Debug.Log("Enter");
             if (state == State.Dead)
+            {
                 Hidden = true;
+            }
+            else
+            {
+                if (state == State.Searching)
+                {
+                    ResetAnimationBools();
+                    anim.SetBool("Searching", true);
+                }
+            }
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Bush")
+        {
+            Debug.Log("Stay");
+            if (state == State.Dead)
+            {
+                Hidden = true;
+            }
+            else
+            if(state == State.Searching)
+            {
+                ResetAnimationBools();
+                anim.SetBool("Searching", true);
+            }
+            Debug.Log(other.name);
+        }
+        
+    }
+
 
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Bush")
         {
+            Debug.Log("Exit");
             if (state == State.Dead)
+            {
                 Hidden = false;
+            }
+            else
+            {
+                anim.SetBool("Searching", false);
+            }
+            
         }
+        
     }
 
     void ResetAnimationBools()
@@ -948,6 +945,8 @@ public class EnemyController : MonoBehaviour
         anim.SetBool("Block", false);
         anim.SetBool("Lunge", false);
         anim.SetBool("Roll", false);
+        anim.SetBool("Blocked", false);
+        anim.SetBool("Searching", false);
     }
 
     void Rotation()
@@ -1178,16 +1177,25 @@ public class EnemyController : MonoBehaviour
     {
         if (hit)
         {
-            player.GetComponent<PController>().health -= 10;
-            
-            if (GetComponentInChildren<HitColliders>().Heavy2)
+            if (player.GetComponent<PController>().isBlocking != true)
             {
-                Debug.Log("Hit");
-                Instantiate(Special,Smash.transform.position, this.transform.rotation);
+                player.GetComponent<PController>().health -= 10;
 
-                GetComponentInChildren<HitColliders>().Heavy2 = false;
-                hit = false;
+                if (GetComponentInChildren<HitColliders>().Heavy2)
+                {
+                    Debug.Log("Hit");
+                    Instantiate(Special, Smash.transform.position, this.transform.rotation);
+
+                    GetComponentInChildren<HitColliders>().Heavy2 = false;
+                    hit = false;
+                }
             }
+            else
+            {
+                timer = .8f;
+                state = State.Blocked;
+            }
+            
             
         }
         
@@ -1318,4 +1326,70 @@ public class EnemyController : MonoBehaviour
         }
 
     }
+
+    void IfMoving(Vector3 lastPos)
+    {
+        //detect if moved//
+        bool x = false;
+        bool z = false;
+        float xf = 0;
+        float zf = 0;
+
+        if (transform.position.x > lastPos.x)
+        {
+            xf = transform.position.x - lastPos.x;
+            if (xf > 0.001)
+                x = true;
+        }
+        else
+        {
+            xf = lastPos.x - transform.position.x;
+            if (xf > 0.001)
+                x = true;
+        }
+
+
+        if (transform.position.z > lastPos.z)
+        {
+            zf = transform.position.z - lastPos.z;
+            if (zf > 0.001)
+                z = true;
+        }
+        else
+        {
+            zf = lastPos.z - transform.position.z;
+            if (zf > 0.001)
+                z = true;
+        }
+        //////////////////////////
+
+        if(state == State.Combat)
+        {
+            //set animation to combat movement//
+            if (!x && !z)
+            {
+                ResetAnimationBools();
+                anim.SetBool("cMove", false);
+                anim.SetFloat("Idle", 1);
+            }
+            else
+            {
+                ResetAnimationBools();
+                if (distance < 5)
+                {
+                    anim.SetBool("cMove", true);
+                }
+                else
+                {
+                    anim.SetBool("Moving", true);
+                }
+
+            }
+
+
+            ////////////////////////////////////////////////////
+        }
+    }
+
+    
 }

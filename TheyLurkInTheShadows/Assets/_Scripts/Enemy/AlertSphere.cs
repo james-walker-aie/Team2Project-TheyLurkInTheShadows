@@ -4,41 +4,42 @@ using UnityEngine;
 
 public class AlertSphere : MonoBehaviour
 {
+    public GameObject enemy;
     public bool completed = false;
     private void OnTriggerEnter(Collider other)
     {
-
+        Debug.Log(other.name);
         if (other.tag == "Bush")
         {
-            
-            if (gameObject.GetComponentInParent<EnemyController>().hidingSpots.Count == 0)
+            Debug.Log("AlertSphere1");
+            if (enemy.GetComponent<EnemyController>().hidingSpots.Count == 0)
             {
-                gameObject.GetComponentInParent<EnemyController>().hidingSpots.Add(other.transform);
+                enemy.GetComponent<EnemyController>().hidingSpots.Add(other.transform);
             }
             else
             {
-                for (int i = 0; i < gameObject.GetComponentInParent<EnemyController>().hidingSpots.Count; i++)
+                for (int i = 0; i < enemy.GetComponent<EnemyController>().hidingSpots.Count; i++)
                 {
-                    if (gameObject.GetComponentInParent<EnemyController>().hidingSpots[i] != other.transform)
+                    if (enemy.GetComponent<EnemyController>().hidingSpots[i] != other.transform)
                     {
                         
-                        gameObject.GetComponentInParent<EnemyController>().hidingSpots.Add(other.transform);
+                        enemy.GetComponent<EnemyController>().hidingSpots.Add(other.transform);
                         
                     }
                 }
             }
 
         }
-
-        for (int j = 0; j < gameObject.GetComponentInParent<EnemyController>().hidingSpots.Count; j++)
+        
+        for (int j = 0; j < enemy.GetComponent<EnemyController>().hidingSpots.Count; j++)
         {
-            for (int k = 0; k < gameObject.GetComponentInParent<EnemyController>().hidingSpots.Count; k++)
+            for (int k = 0; k < enemy.GetComponent<EnemyController>().hidingSpots.Count; k++)
             {
                 if (k != j)
                 {
-                    if (gameObject.GetComponentInParent<EnemyController>().hidingSpots[j] == gameObject.GetComponentInParent<EnemyController>().hidingSpots[k])
+                    if (enemy.GetComponent<EnemyController>().hidingSpots[j] == enemy.GetComponent<EnemyController>().hidingSpots[k])
                     {
-                        gameObject.GetComponentInParent<EnemyController>().hidingSpots.Remove(gameObject.GetComponentInParent<EnemyController>().hidingSpots[j]);
+                        enemy.GetComponent<EnemyController>().hidingSpots.Remove(enemy.GetComponent<EnemyController>().hidingSpots[j]);
                     }
                 }
 
@@ -48,18 +49,18 @@ public class AlertSphere : MonoBehaviour
         if (other.tag == "Enemy")
         {
 
-            if (gameObject.GetComponentInParent<EnemyController>().nearByEnemies.Count == 0)
+            if (enemy.GetComponent<EnemyController>().nearByEnemies.Count == 0)
             {
-                gameObject.GetComponentInParent<EnemyController>().nearByEnemies.Add(other.transform);
+                enemy.GetComponent<EnemyController>().nearByEnemies.Add(other.transform);
             }
             else
             {
-                for (int i = 0; i < gameObject.GetComponentInParent<EnemyController>().nearByEnemies.Count; i++)
+                for (int i = 0; i < enemy.GetComponent<EnemyController>().nearByEnemies.Count; i++)
                 {
-                    if (gameObject.GetComponentInParent<EnemyController>().nearByEnemies[i] != other.transform)
+                    if (enemy.GetComponent<EnemyController>().nearByEnemies[i] != other.transform)
                     {
 
-                        gameObject.GetComponentInParent<EnemyController>().nearByEnemies.Add(other.transform);
+                        enemy.GetComponent<EnemyController>().nearByEnemies.Add(other.transform);
 
                     }
                 }
@@ -67,15 +68,15 @@ public class AlertSphere : MonoBehaviour
 
         }
 
-        for (int j = 0; j < gameObject.GetComponentInParent<EnemyController>().nearByEnemies.Count; j++)
+        for (int j = 0; j < enemy.GetComponent<EnemyController>().nearByEnemies.Count; j++)
         {
-            for (int k = 0; k < gameObject.GetComponentInParent<EnemyController>().nearByEnemies.Count; k++)
+            for (int k = 0; k < enemy.GetComponent<EnemyController>().nearByEnemies.Count; k++)
             {
                 if (k != j)
                 {
-                    if (gameObject.GetComponentInParent<EnemyController>().nearByEnemies[j] == gameObject.GetComponentInParent<EnemyController>().nearByEnemies[k])
+                    if (enemy.GetComponent<EnemyController>().nearByEnemies[j] == enemy.GetComponent<EnemyController>().nearByEnemies[k])
                     {
-                        gameObject.GetComponentInParent<EnemyController>().nearByEnemies.Remove(gameObject.GetComponentInParent<EnemyController>().nearByEnemies[j]);
+                        enemy.GetComponent<EnemyController>().nearByEnemies.Remove(enemy.GetComponent<EnemyController>().nearByEnemies[j]);
                     }
                 }
 
@@ -90,9 +91,12 @@ public class AlertSphere : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.tag == "Enemy")
+        
+        if(other.tag == "Bush")
+            Debug.Log("AlertSphere2");
+        if (other.tag == "Enemy")
         {
-            other.gameObject.GetComponentInParent<EnemyController>().alerted = true;
+            other.gameObject.GetComponent<EnemyController>().alerted = true;
         }
     }
 
@@ -100,15 +104,15 @@ public class AlertSphere : MonoBehaviour
     {
         if(other.tag == "Bush")
         {
-            if (gameObject.GetComponentInParent<EnemyController>().hidingSpots.Contains(other.transform))
-                gameObject.GetComponentInParent<EnemyController>().hidingSpots.Remove(other.transform);
+            if (enemy.GetComponent<EnemyController>().hidingSpots.Contains(other.transform))
+                enemy.GetComponent<EnemyController>().hidingSpots.Remove(other.transform);
         }
 
         if(other.tag == "Enemy")
         {
-            if (gameObject.GetComponentInParent<EnemyController>().nearByEnemies.Contains(other.transform))
-                gameObject.GetComponentInParent<EnemyController>().nearByEnemies.Remove(other.transform);
-            other.gameObject.GetComponentInParent<EnemyController>().alerted = false;
+            if (enemy.GetComponent<EnemyController>().nearByEnemies.Contains(other.transform))
+                enemy.GetComponent<EnemyController>().nearByEnemies.Remove(other.transform);
+            other.gameObject.GetComponent<EnemyController>().alerted = false;
         }
     }
 }
