@@ -15,6 +15,7 @@ public class PController : MonoBehaviour
     public float health = 100;
 
     public bool hidden;
+    public bool isBlocking;
     private bool isWalking;
     private bool isRunning;
     private bool canBackstab;
@@ -34,9 +35,19 @@ public class PController : MonoBehaviour
 
     public Transform sightSync;
 
+    private float secretTimer = 1;
+    private float secretCounter;
+    private float secretPlayTime = 0;
+    public AudioClip secretSound;
+    private AudioSource audioSource;
+    public GameObject secretLights;
+    private float secretSpinSpeed = 10f;
+
     void Start()
     {
         playerRB = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
+
     }
 
     void Update()
@@ -47,7 +58,6 @@ public class PController : MonoBehaviour
 
         playerAnimator.SetFloat("MovementBlendX", ((Quaternion.Euler(0, 135, 0) * playerRB.rotation) * new Vector3(-Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"))).normalized.x);
         playerAnimator.SetFloat("MovementBlendY", ((Quaternion.Euler(0, 315, 0) * playerRB.rotation) * new Vector3(-Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"))).normalized.z);
-
 
         PlayerRotation();
 
@@ -106,7 +116,7 @@ public class PController : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) == true && attackTimer < 0)
+        if (Input.GetKeyDown(KeyCode.E) == true && attackTimer < 0)
         {
 
             if (canBackstab == true)
@@ -170,6 +180,43 @@ public class PController : MonoBehaviour
         {
             visibility = 10;
         }
+
+        #region SECRET
+
+        if (Input.GetKeyDown(KeyCode.P) == true)
+        {
+            secretTimer = 1;
+            secretCounter += 1;
+
+            if (secretCounter >= 5)
+            {
+                secretPlayTime = 30;
+                secretCounter = 0;
+                playerAnimator.SetLayerWeight(2, 2);
+                audioSource.PlayOneShot(secretSound);
+                secretLights.SetActive(true);
+            }
+
+        }
+
+        if (secretTimer < 0)
+        {
+            secretCounter = 0;
+        }
+
+        secretTimer -= Time.deltaTime;
+        secretPlayTime -= Time.deltaTime;
+
+        if (secretPlayTime < 0)
+        {
+            playerAnimator.SetLayerWeight(2, 0);
+            audioSource.Stop();
+            secretLights.SetActive(false);
+        }
+        #endregion
+
+        secretLights.transform.Rotate(Vector3.up, secretSpinSpeed * Time.deltaTime);
+
 
     }
 

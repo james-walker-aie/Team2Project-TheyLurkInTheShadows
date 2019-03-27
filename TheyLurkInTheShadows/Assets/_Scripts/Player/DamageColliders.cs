@@ -7,10 +7,15 @@ public class DamageColliders : MonoBehaviour
 
     public float damage;
 
+    [SerializeField]
+    private AudioClip[] clips;
+
+    private AudioSource audioSource;
+
 
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -27,9 +32,17 @@ public class DamageColliders : MonoBehaviour
             {
                 other.GetComponent<EnemyController>().state = EnemyController.State.BeingAttacked;
             }
-            
-            other.gameObject.GetComponent<EnemyController>().health -= damage;
+
+            AudioClip clip = GetRandomClip();
+            audioSource.PlayOneShot(clip);
+
+            //other.gameObject.GetComponent<EnemyController>().health -= damage;
         }
+    }
+
+    private AudioClip GetRandomClip()
+    {
+        return clips[UnityEngine.Random.Range(0, clips.Length)];
     }
 
 }
