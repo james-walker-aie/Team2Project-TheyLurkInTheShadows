@@ -211,6 +211,10 @@ public class EnemyController : MonoBehaviour
         {
             anim.SetBool("Moving", true);
         }
+        else
+        {
+            anim.SetBool("Moving", false);
+        }
 
         Vector3 worldDeltaPosition = posTarget - transform.position;
         float dx = Vector3.Dot(transform.right, worldDeltaPosition);
