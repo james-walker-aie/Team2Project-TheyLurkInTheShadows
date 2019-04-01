@@ -877,6 +877,11 @@ PrefabInstance:
       propertyPath: patrolSpots.Array.data[0]
       value: 
       objectReference: {fileID: 1094904595}
+    - target: {fileID: 8877477151049468225, guid: 0a6c74c867d5cf343b5cc0b6cb270790,
+        type: 3}
+      propertyPath: playerHealthIcon
+      value: 
+      objectReference: {fileID: 1978119621}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a6c74c867d5cf343b5cc0b6cb270790, type: 3}
 --- !u!4 &553210091 stripped

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
@@ -91,7 +92,11 @@ public class EnemyController : MonoBehaviour
 
     public LayerMask layerMask = ~(1 << 11);
 
-
+    
+    [SerializeField] Image playerHealthIcon;
+    [SerializeField] bool isPlayer = false;
+    float playerCurrentHealth;
+    float playerStartingHealth = 100f;
 
     public enum State
     {
@@ -138,6 +143,8 @@ public class EnemyController : MonoBehaviour
         anim = GetComponent<Animator>();
         c_ctrl = GameObject.FindGameObjectWithTag("EC_ctrl");
 
+        playerCurrentHealth = playerStartingHealth;
+        PlayerHealthUI();
     }
 
     // Update is called once per frame
@@ -1185,7 +1192,10 @@ public class EnemyController : MonoBehaviour
         {
             if (player.GetComponent<PController>().isBlocking != true)
             {
-                player.GetComponent<PController>().health -= 10;
+               player.GetComponent<PController>().health -= 10;
+
+                playerCurrentHealth = player.GetComponent<PController>().health;
+                PlayerHealthUI();
 
                 if (GetComponentInChildren<HitColliders>().Heavy2)
                 {
@@ -1206,6 +1216,16 @@ public class EnemyController : MonoBehaviour
         }
 
     }
+
+    public void PlayerHealthUI()
+    {
+        if (isPlayer)
+        {
+            playerHealthIcon.fillAmount = playerCurrentHealth / playerStartingHealth;
+        }
+        
+    }
+
 
     void Attack()
     {
