@@ -13,9 +13,12 @@ public class PController : MonoBehaviour
     public float visibility;
     public float attackTimer = 2f;
     public float health = 100;
+    public float blockMeter = 20;
+    public float blockCooldown = 5;
 
     public bool hidden;
     public bool isBlocking;
+    private bool blockLock;
     private bool isWalking;
     private bool isRunning;
     private bool canBackstab;
@@ -121,6 +124,40 @@ public class PController : MonoBehaviour
             }
 
 
+        }
+
+        if (Input.GetKey(KeyCode.Mouse1) == true && blockLock == false)
+        {
+            isBlocking = true;
+            blockMeter -= Time.deltaTime;
+            //playerAnimator.SetBool("IsBlocking", true);
+
+            if (blockMeter < 0)
+            {
+                blockLock = true;
+                blockCooldown = 10;
+            }
+
+
+        }
+        else
+        {
+            isBlocking = false;
+            if (blockMeter < 20f)
+            {
+                blockMeter += Time.deltaTime;
+            }
+            //playerAnimator.SetBool("IsBlocking", false);
+
+        }
+
+        if (blockLock == true)
+        {
+            blockCooldown -= Time.deltaTime;
+            if (blockCooldown <= 0)
+            {
+                blockLock = false;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.E) == true && attackTimer < 0)
