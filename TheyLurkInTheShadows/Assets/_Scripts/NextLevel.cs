@@ -5,11 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class NextLevel : MonoBehaviour
 {
+    [SerializeField] public string sceneName = string.Empty;
+
     public void OnTriggerEnter(Collider hit)
     {
         if (hit.CompareTag("Player"))
         {
-           // SceneManager.LoadScene(sceneName);
+           SceneManager.LoadScene(sceneName);
         }
 
     }
