@@ -133,12 +133,16 @@ MonoBehaviour:
   attackTimer: 1
   health: 100
   hidden: 0
+  isBlocking: 0
+  isBackstabbing: 0
   lights: []
   playerToMouse: {x: 0, y: 0, z: 0}
   playerAnimator: {fileID: 5072556860254337515}
   attackCollider: {fileID: 902482730335278278}
   backstabCollider: {fileID: 902482728882727757}
   sightSync: {fileID: 5072556860263421447}
+  secretSound: {fileID: 0}
+  secretLights: {fileID: 0}
 --- !u!82 &6812986643950240956
 AudioSource:
   m_ObjectHideFlags: 0
@@ -251,6 +255,7 @@ MonoBehaviour:
     type: 3}
   particleTargetLocation: {fileID: 0}
   blinkSound: {fileID: 8300000, guid: 74cf7a340ddf3e44ba6a8014fac47ef2, type: 3}
+  source: {fileID: 0}
   volume: 1
 --- !u!114 &6623536058627583574
 MonoBehaviour:
@@ -278,6 +283,8 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 4407
+  playerBlinkIcon: {fileID: 0}
+  isPlayer: 0
 --- !u!1 &902482730203446801
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +390,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 200
+  damageCollider: {fileID: 0}
+  clips: []
 --- !u!1 &902482730256659759
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,6 +497,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 20
+  damageCollider: {fileID: 0}
+  clips: []
 --- !u!1 &5072556860263844385
 GameObject:
   m_ObjectHideFlags: 0
