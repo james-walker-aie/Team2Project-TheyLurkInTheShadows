@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] Image playerHealthIcon;
     [SerializeField] bool isPlayer = false;
-    int currentHealth;
+    int playerCurrentHealth;
     public int health = 100;
     public int level = 1;
 
@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     {
         if (isPlayer)
         {
-            playerHealthIcon.fillAmount = currentHealth / health;
+            playerHealthIcon.fillAmount = playerCurrentHealth / health;
         }
         //health icon code to go here
     }

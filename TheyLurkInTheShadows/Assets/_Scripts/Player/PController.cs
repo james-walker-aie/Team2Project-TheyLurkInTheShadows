@@ -13,12 +13,16 @@ public class PController : MonoBehaviour
     public float visibility;
     public float attackTimer = 2f;
     public float health = 100;
+    public float blockMeter = 20;
+    public float blockCooldown = 5;
 
     public bool hidden;
     public bool isBlocking;
+    private bool blockLock;
     private bool isWalking;
     private bool isRunning;
     private bool canBackstab;
+    public bool isBackstabbing;
 
     public List<Transform> lights = new List<Transform>();
 
@@ -35,13 +39,19 @@ public class PController : MonoBehaviour
 
     public Transform sightSync;
 
+    #region SECRET
+
     private float secretTimer = 1;
     private float secretCounter;
     private float secretPlayTime = 0;
     public AudioClip secretSound;
     private AudioSource audioSource;
     public GameObject secretLights;
-    private float secretSpinSpeed = 10f;
+    private float secretSpinSpeed = 200f;
+
+    
+
+    #endregion
 
     void Start()
     {
@@ -116,11 +126,46 @@ public class PController : MonoBehaviour
 
         }
 
+        if (Input.GetKey(KeyCode.Mouse1) == true && blockLock == false)
+        {
+            isBlocking = true;
+            blockMeter -= Time.deltaTime;
+            //playerAnimator.SetBool("IsBlocking", true);
+
+            if (blockMeter < 0)
+            {
+                blockLock = true;
+                blockCooldown = 10;
+            }
+
+
+        }
+        else
+        {
+            isBlocking = false;
+            if (blockMeter < 20f)
+            {
+                blockMeter += Time.deltaTime;
+            }
+            //playerAnimator.SetBool("IsBlocking", false);
+
+        }
+
+        if (blockLock == true)
+        {
+            blockCooldown -= Time.deltaTime;
+            if (blockCooldown <= 0)
+            {
+                blockLock = false;
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.E) == true && attackTimer < 0)
         {
 
             if (canBackstab == true)
             {
+                isBackstabbing = true;
                 attackTimer = 2.5f;
                 playerAnimator.SetBool("IsBackstabbing", true);
 
@@ -138,6 +183,7 @@ public class PController : MonoBehaviour
             playerAnimator.applyRootMotion = false;
             playerAnimator.SetBool("IsAttacking", false);
             playerAnimator.SetBool("IsBackstabbing", false);
+            isBackstabbing = false;
 
         }
 
