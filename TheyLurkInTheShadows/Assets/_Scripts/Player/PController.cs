@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 
 public class PController : MonoBehaviour
@@ -263,6 +264,10 @@ public class PController : MonoBehaviour
 
         secretLights.transform.Rotate(Vector3.up, secretSpinSpeed * Time.deltaTime);
 
+        if (health <= 0)
+        {
+            SceneManager.LoadScene("GameOverScene");
+        }
 
     }
 
