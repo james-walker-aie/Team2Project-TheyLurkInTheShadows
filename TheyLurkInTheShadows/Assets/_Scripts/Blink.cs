@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Blink : MonoBehaviour
 {
@@ -25,7 +26,8 @@ public class Blink : MonoBehaviour
 
     public LayerMask layerMask;
 
-
+    [SerializeField] Image playerBlinkIcon;
+    [SerializeField] bool isPlayer = false;
 
     void Start()
     {
@@ -34,6 +36,7 @@ public class Blink : MonoBehaviour
 
     void Update()
     {
+        UpdateUI();
         RaycastHit hit;
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -66,4 +69,10 @@ public class Blink : MonoBehaviour
 
         //to do: a max range that can be changed in the editor, make the teleport ignore the AI sight cones, add in a cooldown rate for teleporting.
     }
+
+    void UpdateUI()
+    {
+        playerBlinkIcon.fillAmount = currentTime / timerDelay;
+    }
+
 }
