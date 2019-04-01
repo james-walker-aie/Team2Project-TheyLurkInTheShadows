@@ -73,6 +73,14 @@ public class EnemyController : MonoBehaviour
     NavMeshAgent nav;
     NavMeshObstacle navObs;
 
+    [Header("Sounds")]
+    public AudioClip[] footsteps;
+    public AudioClip special;
+    public AudioClip die;
+    AudioClip Footr;
+    AudioClip Footl;
+    AudioSource AS;
+
     [Header("Lists")]
     public List<Transform> hidingSpots = new List<Transform>();
     public List<Transform> patrolSpots = new List<Transform>();
@@ -88,6 +96,8 @@ public class EnemyController : MonoBehaviour
     [Header("Vector2")]
     Vector2 smoothDeltaPosition = Vector2.zero;
     Vector2 velocity = Vector2.zero;
+
+    
 
     public LayerMask layerMask = ~(1 << 11);
 
@@ -137,7 +147,7 @@ public class EnemyController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         anim = GetComponent<Animator>();
         c_ctrl = GameObject.FindGameObjectWithTag("EC_ctrl");
-
+        AS = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -716,13 +726,13 @@ public class EnemyController : MonoBehaviour
 
                 float chance;
                 chance = Random.Range(0f, 1f);
-                if (chance < 0.4f)
+                if (chance < 0.3f)
                 {
                     timer = .5f;
                     state = State.Block;
                 }
                 else
-                if (chance > 0.4f && chance < 0.7f)
+                if (chance > 0.3f && chance < 0.4f)
                 {
                     timer = 1;
                     state = State.Roll;
@@ -840,6 +850,8 @@ public class EnemyController : MonoBehaviour
 
             case State.Dead:
                 //dead
+                AS.clip = die;
+                AS.Play();
                 sight.SetActive(false);
                 ResetAnimationBools();
                 anim.SetBool("Dead", true);
@@ -1191,7 +1203,8 @@ public class EnemyController : MonoBehaviour
                 {
                     Debug.Log("Hit");
                     Instantiate(Special, Smash.transform.position, this.transform.rotation);
-
+                    AS.clip = special;
+                    AS.Play();
                     GetComponentInChildren<HitColliders>().Heavy2 = false;
                     hit = false;
                 }
@@ -1414,6 +1427,65 @@ public class EnemyController : MonoBehaviour
         ////////////////////////////////////////////////////
 
 
+    }
+
+    void FootR()
+    {
+        int foot = Random.Range(0, 3);
+        if(footsteps[foot] != Footl)
+        {
+            AS.clip = footsteps[foot];
+            Footr = footsteps[foot];
+        }
+        else
+        {
+            switch (foot)
+            {
+                case 0:
+                    AS.clip = footsteps[1];
+                    Footr = footsteps[1];
+                    break;
+                case 1:
+                    AS.clip = footsteps[2];
+                    Footr = footsteps[2];
+                    break;
+                case 2:
+                    AS.clip = footsteps[0];
+                    Footr = footsteps[0];
+                    break;
+            }
+        }
+        
+        AS.Play();
+    }
+
+    void FootL()
+    {
+        int foot = Random.Range(0, 3);
+        if (footsteps[foot] != Footr)
+        {
+            AS.clip = footsteps[foot];
+            Footl = footsteps[foot];
+        }
+        else
+        {
+            switch (foot)
+            {
+                case 0:
+                    AS.clip = footsteps[1];
+                    Footl = footsteps[1];
+                    break;
+                case 1:
+                    AS.clip = footsteps[2];
+                    Footl = footsteps[2];
+                    break;
+                case 2:
+                    AS.clip = footsteps[0];
+                    Footl = footsteps[0];
+                    break;
+            }
+        }
+        AS.Play();
     }
 }
 
