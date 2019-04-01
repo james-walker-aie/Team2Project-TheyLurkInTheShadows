@@ -658,7 +658,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4407
   playerBlinkIcon: {fileID: 0}
-  isPlayer: 0
+  isPlayer: 1
 --- !u!1 &902482730203446801
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,7 +765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 200
-  damageCollider: {fileID: 0}
+  damageCollider: {fileID: 902482730203446801}
   clips:
   - {fileID: 8300000, guid: 021b080ec70e6ea46ac99dd268db43cd, type: 3}
   - {fileID: 8300000, guid: c3be25ef00ef27945aa2c381af60a0c2, type: 3}
