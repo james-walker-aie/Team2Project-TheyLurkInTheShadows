@@ -6,6 +6,8 @@ public class DamageColliders : MonoBehaviour
 {
 
     public float damage;
+    public GameObject damageCollider;
+
 
     [SerializeField]
     private AudioClip[] clips;
@@ -36,7 +38,13 @@ public class DamageColliders : MonoBehaviour
             AudioClip clip = GetRandomClip();
             audioSource.PlayOneShot(clip);
 
-            //other.gameObject.GetComponent<EnemyController>().health -= damage;
+            if (GetComponentInParent<PController>().isBackstabbing == true)
+            {
+                other.gameObject.GetComponent<EnemyController>().health -= damage;
+                damageCollider.SetActive(false);
+
+            }
+
         }
     }
 

@@ -19,6 +19,7 @@ public class PController : MonoBehaviour
     private bool isWalking;
     private bool isRunning;
     private bool canBackstab;
+    public bool isBackstabbing;
 
     public List<Transform> lights = new List<Transform>();
 
@@ -35,13 +36,19 @@ public class PController : MonoBehaviour
 
     public Transform sightSync;
 
+    #region SECRET
+
     private float secretTimer = 1;
     private float secretCounter;
     private float secretPlayTime = 0;
     public AudioClip secretSound;
     private AudioSource audioSource;
     public GameObject secretLights;
-    private float secretSpinSpeed = 10f;
+    private float secretSpinSpeed = 200f;
+
+    
+
+    #endregion
 
     void Start()
     {
@@ -121,6 +128,7 @@ public class PController : MonoBehaviour
 
             if (canBackstab == true)
             {
+                isBackstabbing = true;
                 attackTimer = 2.5f;
                 playerAnimator.SetBool("IsBackstabbing", true);
 
@@ -138,6 +146,7 @@ public class PController : MonoBehaviour
             playerAnimator.applyRootMotion = false;
             playerAnimator.SetBool("IsAttacking", false);
             playerAnimator.SetBool("IsBackstabbing", false);
+            isBackstabbing = false;
 
         }
 
