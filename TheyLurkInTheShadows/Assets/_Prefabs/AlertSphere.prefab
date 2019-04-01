@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 8495884098866192629}
   - component: {fileID: 8495884098866192628}
   - component: {fileID: 8495884098866192631}
-  m_Layer: 0
+  - component: {fileID: 4146185312873556722}
+  m_Layer: 14
   m_Name: AlertSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8495884098866192630}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.912, z: 0}
   m_LocalScale: {x: 42.40359, y: 1.68948, z: 0.5666553}
   m_Children: []
@@ -104,4 +105,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c74c555922a3764b8bfd4055dcdb8aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
   completed: 0
+--- !u!114 &4146185312873556722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495884098866192630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de8379a0e039a8348a6f9e20bccbb0b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
