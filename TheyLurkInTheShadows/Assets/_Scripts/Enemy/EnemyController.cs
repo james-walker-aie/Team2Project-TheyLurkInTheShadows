@@ -649,14 +649,16 @@ public class EnemyController : MonoBehaviour
 
                     if (distance < 10)
                         state = State.Combat;
+
+                    if (distance > 10)
+                    {
+                        lastPos = player.transform.position;
+                        pos = lastPos;
+                        state = State.LastPos;
+                    }
                 }
-                else
-                if (distance > 10)
-                {
-                    lastPos = player.transform.position;
-                    pos = lastPos;
-                    state = State.LastPos;
-                }
+                
+                
 
                 break;
 
@@ -703,7 +705,7 @@ public class EnemyController : MonoBehaviour
                 IfMoving(lastPos);
 
                 //Go back to aggro state//
-                if (distance > 10 && !alerted)
+                if (distance > 10 )
                 {
                     nav.stoppingDistance = 0;
                     anim.SetFloat("Idle", 0);

@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4146185312873556722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 820142399285185768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de8379a0e039a8348a6f9e20bccbb0b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 8877477151049468229}
 --- !u!1 &4371599512017080488
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,11 +161,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlertSphere
       objectReference: {fileID: 0}
-    - target: {fileID: 8495884098866192630, guid: e67cd2c6a698142489f710a98ae07573,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8495884098866192619, guid: e67cd2c6a698142489f710a98ae07573,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -235,6 +217,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8495884098866192631, guid: e67cd2c6a698142489f710a98ae07573,
+        type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 8877477151049468229}
+    - target: {fileID: 4146185312873556722, guid: e67cd2c6a698142489f710a98ae07573,
         type: 3}
       propertyPath: enemy
       value: 
