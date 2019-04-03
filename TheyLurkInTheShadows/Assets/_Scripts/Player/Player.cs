@@ -11,14 +11,6 @@ public class Player : MonoBehaviour
     public int health = 100;
     public int level = 1;
 
-    public void PlayerHealthUI()
-    {
-        if (isPlayer)
-        {
-            playerHealthIcon.fillAmount = playerCurrentHealth / health;
-        }
-        //health icon code to go here
-    }
 
     public void SavePlayer()
     {
@@ -29,7 +21,7 @@ public class Player : MonoBehaviour
     {
         PlayerDetails details = SaveLoadSystem.LoadPlayer();
 
-        level = details.level;
+        //level = details.level;
         health = details.health;
 
         Vector3 position;
