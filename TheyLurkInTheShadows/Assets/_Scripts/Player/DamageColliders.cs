@@ -5,6 +5,7 @@ using UnityEngine;
 public class DamageColliders : MonoBehaviour
 {
 
+    public float damageConst;
     public float damage;
     public GameObject damageCollider;
 
@@ -15,7 +16,7 @@ public class DamageColliders : MonoBehaviour
     private AudioSource audioSource;
 
 
-    void Start()
+    void Awake()
     {
         audioSource = GetComponent<AudioSource>();
     }
@@ -23,6 +24,11 @@ public class DamageColliders : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private AudioClip GetRandomClip()
+    {
+        return clips[UnityEngine.Random.Range(0, clips.Length)];
     }
 
     private void OnTriggerEnter (Collider other)
@@ -41,16 +47,12 @@ public class DamageColliders : MonoBehaviour
             if (GetComponentInParent<PController>().isBackstabbing == true)
             {
                 other.gameObject.GetComponent<EnemyController>().health -= damage;
-                damageCollider.SetActive(false);
-
             }
+
+            damage = 0;
 
         }
     }
 
-    private AudioClip GetRandomClip()
-    {
-        return clips[UnityEngine.Random.Range(0, clips.Length)];
-    }
 
 }
