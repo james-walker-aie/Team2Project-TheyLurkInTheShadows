@@ -529,9 +529,8 @@ public class EnemyController : MonoBehaviour
                 //search near by hiding spots
                 run = .5f;
                 //Debug.Log("Searching");
-                if (searchInt > hidingSpots.Count)
+                if (searchInt > hidingSpots.Count || hidingSpots.Count <= 0)
                 {
-
 
                     state = State.Patrol;
                 }
@@ -865,7 +864,8 @@ public class EnemyController : MonoBehaviour
                 //dead
                 AS.clip = die;
                 AS.Play();
-                sight.SetActive(false);
+                if(sight != null)
+                    sight.SetActive(false);
                 ResetAnimationBools();
                 anim.SetBool("Dead", true);
                 nav.enabled = false;
