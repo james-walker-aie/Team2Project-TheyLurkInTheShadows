@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 
 public class PController : MonoBehaviour
@@ -113,7 +114,7 @@ public class PController : MonoBehaviour
 
         attackTimer -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) == true && attackTimer < 0)
+        if (Input.GetKeyDown(KeyCode.Mouse0) == true && attackTimer < 0 && isBlocking == false)
         {
             attackTimer = 1f;
             playerAnimator.SetBool("IsAttacking", true);
@@ -130,7 +131,7 @@ public class PController : MonoBehaviour
         {
             isBlocking = true;
             blockMeter -= Time.deltaTime;
-            //playerAnimator.SetBool("IsBlocking", true);
+            playerAnimator.SetBool("IsBlocking", true);
 
             if (blockMeter < 0)
             {
@@ -143,11 +144,11 @@ public class PController : MonoBehaviour
         else
         {
             isBlocking = false;
+            playerAnimator.SetBool("IsBlocking", false);
             if (blockMeter < 20f)
             {
                 blockMeter += Time.deltaTime;
             }
-            //playerAnimator.SetBool("IsBlocking", false);
 
         }
 
@@ -160,7 +161,7 @@ public class PController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E) == true && attackTimer < 0)
+        if (Input.GetKeyDown(KeyCode.E) == true && attackTimer < 0 && isBlocking == false)
         {
 
             if (canBackstab == true)
@@ -263,6 +264,10 @@ public class PController : MonoBehaviour
 
         secretLights.transform.Rotate(Vector3.up, secretSpinSpeed * Time.deltaTime);
 
+        if (health <= 0)
+        {
+            SceneManager.LoadScene("GameOverScene");
+        }
 
     }
 
