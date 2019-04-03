@@ -9,18 +9,18 @@ public class Light : MonoBehaviour
         if (other.tag == "Player")
         {
 
-            if (other.GetComponent<TestLAT>().lights.Count == 0)
+            if (other.GetComponent<PController>().lights.Count == 0)
             {
-                other.GetComponent<TestLAT>().lights.Add(gameObject.transform);
+                other.GetComponent<PController>().lights.Add(gameObject.transform);
             }
             else
             {
-                for (int i = 0; i < other.GetComponent<TestLAT>().lights.Count; i++)
+                for (int i = 0; i < other.GetComponent<PController>().lights.Count; i++)
                 {
-                    if (other.GetComponent<TestLAT>().lights[i] != gameObject.transform)
+                    if (other.GetComponent<PController>().lights[i] != gameObject.transform)
                     {
                         
-                        other.GetComponent<TestLAT>().lights.Add(gameObject.transform);
+                        other.GetComponent<PController>().lights.Add(gameObject.transform);
                         
                     }
                 }
@@ -28,15 +28,15 @@ public class Light : MonoBehaviour
 
         }
 
-        for (int j = 0; j < other.GetComponent<TestLAT>().lights.Count; j++)
+        for (int j = 0; j < other.GetComponent<PController>().lights.Count; j++)
         {
-            for (int k = 0; k < other.GetComponent<TestLAT>().lights.Count; k++)
+            for (int k = 0; k < other.GetComponent<PController>().lights.Count; k++)
             {
                 if (k != j)
                 {
-                    if (other.GetComponent<TestLAT>().lights[j] == other.GetComponent<TestLAT>().lights[k])
+                    if (other.GetComponent<PController>().lights[j] == other.GetComponent<PController>().lights[k])
                     {
-                        other.GetComponent<TestLAT>().lights.Remove(gameObject.GetComponent<TestLAT>().lights[j]);
+                        other.GetComponent<PController>().lights.Remove(gameObject.GetComponent<PController>().lights[j]);
                     }
                 }
 
@@ -48,11 +48,11 @@ public class Light : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            for (int i = 0; i < other.GetComponent<TestLAT>().lights.Count; i++)
+            for (int i = 0; i < other.GetComponent<PController>().lights.Count; i++)
             {
-                if(other.GetComponent<TestLAT>().lights[i] == gameObject.transform)
+                if(other.GetComponent<PController>().lights[i] == gameObject.transform)
                 {
-                    other.GetComponent<TestLAT>().lights.Remove(this.gameObject.transform);
+                    other.GetComponent<PController>().lights.Remove(this.gameObject.transform);
                 }
             }
 

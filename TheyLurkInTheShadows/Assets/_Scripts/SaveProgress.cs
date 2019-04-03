@@ -7,19 +7,30 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class SaveProgress : MonoBehaviour
 {
+    [SerializeField]
+    public Player player;
 
     public void OnTriggerEnter(Collider hit)
     {
         if (hit.CompareTag("Player"))
         {
-            SavePlayer();
+            SavePlayer(player);
         }
 
     }
 
-    public void SavePlayer()
+    public void SavePlayer(Player player)
     {
-        //SaveLoadSystem.SavePlayer();
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        string path = Application.persistentDataPath + "/player.progress";
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        PlayerDetails details = new PlayerDetails(player);
+
+        formatter.Serialize(stream, details);
+        stream.Close();
+
     }
 
 
