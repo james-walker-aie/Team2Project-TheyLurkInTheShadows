@@ -164,9 +164,20 @@ public class EnemyCombatCtrl : MonoBehaviour
                             }
 
                         }
+                        else
+                        if (AttackGroup1[Rand].GetComponent<EnemyController>().Class == EnemyController.Type.Mystic)
+                        {
+                            if (AttackGroup1[Rand].GetComponent<EnemyController>().distance <= 3.5f)
+                            {
+                                if (AttackGroup1[Rand].GetComponent<EnemyController>().state != EnemyController.State.Block && AttackGroup1[Rand].GetComponent<EnemyController>().state != EnemyController.State.Hit)
+                                    AttackGroup1[Rand].GetComponent<EnemyController>().canAttack = true;
 
-                        
-                        
+                                timer = 3;
+                            }
+                        }
+
+
+
                     }
                 }
       

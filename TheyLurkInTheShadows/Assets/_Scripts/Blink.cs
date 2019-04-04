@@ -13,6 +13,7 @@ public class Blink : MonoBehaviour
     public Vector3 offset;
     private NavMeshHit Hit;
     public Transform target;
+    public bool isBlinking;
     public bool invalid = false;
     float pokeForce;
     public int AreaMaskCheck = 0;
@@ -39,7 +40,7 @@ public class Blink : MonoBehaviour
         UpdateUI();
         RaycastHit hit;
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
+        
         if (Physics.Raycast(ray, out hit, Mathf.Infinity , layerMask))
         {
             ball.transform.position = hit.point;
@@ -59,15 +60,19 @@ public class Blink : MonoBehaviour
         {
             if (distance <= MaxRange && currentTime >= timerDelay)
             {
+                
                 transform.position = ball.transform.position + Vector3.up;
+                isBlinking = true;
                 currentTime = 0;
                 GetComponent<BlinkParticles>().BlinkParticleTrigger();
+                
             }
 
-
+            //isBlinking = false;
         }
 
         //to do: a max range that can be changed in the editor, make the teleport ignore the AI sight cones, add in a cooldown rate for teleporting.
+        //isBlinking = false;
     }
 
     void UpdateUI()
