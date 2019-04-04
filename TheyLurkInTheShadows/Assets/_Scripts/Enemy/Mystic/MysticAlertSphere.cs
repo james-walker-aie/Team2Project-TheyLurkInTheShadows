@@ -8,6 +8,7 @@ public class MysticAlertSphere : MonoBehaviour
     public bool completed = false;
     bool playerNearby;
     public GameObject blink;
+    public GameObject[] particles;
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other.name);
@@ -66,10 +67,15 @@ public class MysticAlertSphere : MonoBehaviour
             if (other.gameObject.GetComponent<Blink>().isBlinking == true && enemy.GetComponent<EnemyController>().state != EnemyController.State.Dead)
             {
                 Debug.Log("Blink");
+                
                 Vector3 dir = (this.transform.position - other.gameObject.transform.position).normalized;
                 enemy.transform.position = new Vector3(other.gameObject.transform.position.x, 0, other.gameObject.transform.position.z) - dir*3;
                 blink.GetComponent<ParticleSystem>().Play();
                 enemy.GetComponent<EnemyController>().state = EnemyController.State.Combat;
+                foreach(GameObject part in particles)
+                {
+                    part.transform.position = enemy.transform.position;
+                }
                 other.gameObject.GetComponent<Blink>().isBlinking = false;
             }
         }
