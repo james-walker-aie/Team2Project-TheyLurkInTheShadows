@@ -13,6 +13,13 @@ public class MysticAlertSphere : MonoBehaviour
     {
         Debug.Log(other.name);
         
+        if(enemy.GetComponent<EnemyController>().state == EnemyController.State.Dead)
+        {
+            foreach(GameObject part in particles)
+            {
+                part.SetActive(false);
+            }
+        }
 
         
 
@@ -69,7 +76,7 @@ public class MysticAlertSphere : MonoBehaviour
                 Debug.Log("Blink");
                 
                 Vector3 dir = (this.transform.position - other.gameObject.transform.position).normalized;
-                enemy.transform.position = new Vector3(other.gameObject.transform.position.x, 0, other.gameObject.transform.position.z) - dir*3;
+                enemy.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, other.gameObject.transform.position.z) - dir*3;
                 blink.GetComponent<ParticleSystem>().Play();
                 enemy.GetComponent<EnemyController>().state = EnemyController.State.Combat;
                 foreach(GameObject part in particles)
@@ -77,6 +84,7 @@ public class MysticAlertSphere : MonoBehaviour
                     part.transform.position = enemy.transform.position;
                 }
                 other.gameObject.GetComponent<Blink>().isBlinking = false;
+                enemy.GetComponent<EnemyController>().canAttack = true;
             }
         }
 

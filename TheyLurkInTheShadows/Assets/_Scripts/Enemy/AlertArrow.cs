@@ -10,7 +10,9 @@ public class AlertArrow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GetComponentInParent<EnemyController>().state == EnemyController.State.Combat)
+        if (GetComponentInParent<EnemyController>().state == EnemyController.State.Dead)
+            gameObject.SetActive(false);
+        if (GetComponentInParent<EnemyController>().state == EnemyController.State.Combat)
         {
             GetComponent<SpriteRenderer>().sprite = red;
         }

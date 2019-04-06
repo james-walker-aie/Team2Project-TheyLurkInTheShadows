@@ -14,47 +14,61 @@ public class EnemyColor : MonoBehaviour
     void Update()
     {
         
+        if(GetComponentInParent<EnemyController>().state != EnemyController.State.Dead)
+        {
+            if (GetComponentInParent<EnemyController>().state == EnemyController.State.Combat)
+            {
+                if (GetComponent<SkinnedMeshRenderer>())
+                {
+                    GetComponent<SkinnedMeshRenderer>().material = red;
+                }
+                else
+                {
+                    GetComponent<MeshRenderer>().material = red;
+                }
 
-        if (GetComponentInParent<EnemyController>().state == EnemyController.State.Combat)
-        {
-            if (GetComponent<SkinnedMeshRenderer>())
-            {
-                GetComponent<SkinnedMeshRenderer>().material = red;
             }
             else
+            if (GetComponentInParent<EnemyController>().state == EnemyController.State.AlertTime || GetComponentInParent<EnemyController>().state == EnemyController.State.Alert)
             {
-                GetComponent<MeshRenderer>().material = red;
-            }
-            
-        }
-        else
-        if (GetComponentInParent<EnemyController>().state == EnemyController.State.AlertTime || GetComponentInParent<EnemyController>().state == EnemyController.State.Alert)
-        {
-            if (GetComponent<SkinnedMeshRenderer>())
-            {
-                GetComponent<SkinnedMeshRenderer>().material = pink;
-            }
-            else
-            {
-                GetComponent<MeshRenderer>().material = pink;
-            }
-                
-        }
-        else
-        if (GetComponentInParent<EnemyController>().state == EnemyController.State.Searching)
-        {
-            if (GetComponent<SkinnedMeshRenderer>())
-            {
-                GetComponent<SkinnedMeshRenderer>().material = blue;
+                if (GetComponent<SkinnedMeshRenderer>())
+                {
+                    GetComponent<SkinnedMeshRenderer>().material = pink;
+                }
+                else
+                {
+                    GetComponent<MeshRenderer>().material = pink;
+                }
+
             }
             else
+            if (GetComponentInParent<EnemyController>().state == EnemyController.State.Searching)
             {
-                GetComponent<MeshRenderer>().material = blue;
+                if (GetComponent<SkinnedMeshRenderer>())
+                {
+                    GetComponent<SkinnedMeshRenderer>().material = blue;
+                }
+                else
+                {
+                    GetComponent<MeshRenderer>().material = blue;
+                }
+
             }
-                
+            else
+            if (GetComponentInParent<EnemyController>().state == EnemyController.State.Patrol || GetComponentInParent<EnemyController>().state == EnemyController.State.Guard)
+            {
+                if (GetComponent<SkinnedMeshRenderer>())
+                {
+                    GetComponent<SkinnedMeshRenderer>().material = yellow;
+                }
+                else
+                {
+                    GetComponent<MeshRenderer>().material = yellow;
+                }
+
+            }
         }
         else
-        if (GetComponentInParent<EnemyController>().state == EnemyController.State.Patrol || GetComponentInParent<EnemyController>().state == EnemyController.State.Guard)
         {
             if (GetComponent<SkinnedMeshRenderer>())
             {
@@ -64,7 +78,7 @@ public class EnemyColor : MonoBehaviour
             {
                 GetComponent<MeshRenderer>().material = yellow;
             }
-                
         }
+        
     }
 }

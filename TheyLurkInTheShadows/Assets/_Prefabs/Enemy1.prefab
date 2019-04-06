@@ -122,6 +122,10 @@ PrefabInstance:
       propertyPath: alertSphere
       value: 
       objectReference: {fileID: 820142399285185768}
+    - target: {fileID: 376, guid: 81b0ed728d7eec44285a108070a82768, type: 3}
+      propertyPath: BackStab
+      value: 
+      objectReference: {fileID: 1254483357770727186}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81b0ed728d7eec44285a108070a82768, type: 3}
 --- !u!1 &1254483357770727205 stripped
@@ -133,6 +137,12 @@ GameObject:
 --- !u!4 &1254483357770727052 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 282, guid: 81b0ed728d7eec44285a108070a82768,
+    type: 3}
+  m_PrefabInstance: {fileID: 1254483357770727318}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1254483357770727186 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 132, guid: 81b0ed728d7eec44285a108070a82768,
     type: 3}
   m_PrefabInstance: {fileID: 1254483357770727318}
   m_PrefabAsset: {fileID: 0}

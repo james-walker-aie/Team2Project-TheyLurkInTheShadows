@@ -14,6 +14,8 @@ public class EnemyCombatCtrl : MonoBehaviour
     Transform E4 = null;
     GameObject player;
     float timer;
+    float timer2;
+    int lastT = int.MinValue;
 
     private void Awake()
     {
@@ -62,10 +64,10 @@ public class EnemyCombatCtrl : MonoBehaviour
         if (enemies.Count != 0)
         {
             timer -= Time.deltaTime;
-
+            timer2 -= Time.deltaTime;
             GetClosestEnemy(enemies);
 
-            if (!AttackGroup1.Contains(E1))
+            if (!AttackGroup1.Contains(E1) && E1 != null)
             {
                 if (AttackGroup2.Contains(E1))
                 {
@@ -75,7 +77,7 @@ public class EnemyCombatCtrl : MonoBehaviour
                 E1.GetComponent<EnemyController>().AttackGroup = 1;
             }
                 
-            if (!AttackGroup1.Contains(E2))
+            if (!AttackGroup1.Contains(E2) && E2 != null)
             {
                 if (AttackGroup2.Contains(E2))
                 {
@@ -86,7 +88,7 @@ public class EnemyCombatCtrl : MonoBehaviour
                 E2.GetComponent<EnemyController>().AttackGroup = 1;
             }
                 
-            if (!AttackGroup1.Contains(E3))
+            if (!AttackGroup1.Contains(E3) && E3 != null)
             {
                 if (AttackGroup2.Contains(E3))
                 {
@@ -97,7 +99,7 @@ public class EnemyCombatCtrl : MonoBehaviour
                 E3.GetComponent<EnemyController>().AttackGroup = 1;
             }
 
-            if (!AttackGroup1.Contains(E4))
+            if (!AttackGroup1.Contains(E4) && E4 != null)
             {
                 if (AttackGroup2.Contains(E4))
                 {
@@ -181,6 +183,35 @@ public class EnemyCombatCtrl : MonoBehaviour
                     }
                 }
       
+            }
+
+            if(AttackGroup2.Count > 0)
+            {
+                if(timer2 <= 0)
+                {
+                    int Rand = Random.Range(0, AttackGroup2.Count);
+                    if (lastT != int.MinValue)
+                    {
+                        if (Rand == lastT)
+                        {
+                            if (Rand != 0)
+                            {
+                                Rand--;
+                            }
+                            else
+                            {
+                                Rand++;
+                            }
+                        }
+                    }
+                    if (AttackGroup2[Rand].GetComponent<EnemyController>().state == EnemyController.State.Combat)
+                    {
+                        AttackGroup2[Rand].GetComponent<EnemyController>().canTaunt = true;
+                        lastT = Rand;
+                        timer2 = 2;
+                    }
+                }
+                
             }
 
         }

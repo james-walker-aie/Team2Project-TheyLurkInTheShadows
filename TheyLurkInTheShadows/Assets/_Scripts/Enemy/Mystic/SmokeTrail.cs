@@ -15,6 +15,6 @@ public class SmokeTrail : MonoBehaviour
     private void Update()
     {
        
-        transform.position = Vector3.SmoothDamp(transform.position, enemy.transform.position, ref velocity, 0.6f);
+        transform.position = Vector3.SmoothDamp(transform.position, enemy.transform.position, ref velocity, 0.35f);
     }
 }
