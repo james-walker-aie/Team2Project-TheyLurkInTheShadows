@@ -40,7 +40,7 @@ public class DamageColliders : MonoBehaviour
                 other.gameObject.GetComponent<EnemyController>().health = 0;
             }
 
-            Debug.Log("Collision has occured");
+            
             if(other.GetComponent<EnemyController>().state != EnemyController.State.Dead && !GetComponentInParent<PController>().isBackstabbing)
             {
                 other.GetComponent<EnemyController>().state = EnemyController.State.BeingAttacked;

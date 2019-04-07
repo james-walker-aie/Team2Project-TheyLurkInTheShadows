@@ -9669,7 +9669,7 @@ MonoBehaviour:
   hit: 0
   canTaunt: 0
   hitP: 0
-  health: 100
+  health: 150
   guardTime: 5
   run: 0
   distance: 0

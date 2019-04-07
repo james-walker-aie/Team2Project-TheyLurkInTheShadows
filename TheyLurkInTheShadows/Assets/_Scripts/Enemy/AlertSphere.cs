@@ -8,10 +8,10 @@ public class AlertSphere : MonoBehaviour
     public bool completed = false;
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
+        
         if (other.tag == "Bush")
         {
-            Debug.Log("AlertSphere1");
+            
             if (enemy.GetComponent<EnemyController>().hidingSpots.Count == 0)
             {
                 enemy.GetComponent<EnemyController>().hidingSpots.Add(other.transform);
@@ -93,7 +93,7 @@ public class AlertSphere : MonoBehaviour
     {
         
         if(other.tag == "Bush")
-            Debug.Log("AlertSphere2");
+            //Debug.Log("AlertSphere2");
         if (other.tag == "Enemy")
         {
             other.gameObject.GetComponent<EnemyController>().alerted = true;

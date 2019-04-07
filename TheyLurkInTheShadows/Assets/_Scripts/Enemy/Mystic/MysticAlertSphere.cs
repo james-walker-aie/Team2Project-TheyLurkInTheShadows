@@ -11,7 +11,7 @@ public class MysticAlertSphere : MonoBehaviour
     public GameObject[] particles;
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
+        
         
         if(enemy.GetComponent<EnemyController>().state == EnemyController.State.Dead)
         {
@@ -25,23 +25,26 @@ public class MysticAlertSphere : MonoBehaviour
 
         if (other.tag == "Enemy")
         {
-
-            if (enemy.GetComponent<EnemyController>().nearByEnemies.Count == 0)
+            if(other.gameObject != enemy)
             {
-                enemy.GetComponent<EnemyController>().nearByEnemies.Add(other.transform);
-            }
-            else
-            {
-                for (int i = 0; i < enemy.GetComponent<EnemyController>().nearByEnemies.Count; i++)
+                if (enemy.GetComponent<EnemyController>().nearByEnemies.Count == 0)
                 {
-                    if (enemy.GetComponent<EnemyController>().nearByEnemies[i] != other.transform)
+                    enemy.GetComponent<EnemyController>().nearByEnemies.Add(other.transform);
+                }
+                else
+                {
+                    for (int i = 0; i < enemy.GetComponent<EnemyController>().nearByEnemies.Count; i++)
                     {
+                        if (enemy.GetComponent<EnemyController>().nearByEnemies[i] != other.transform)
+                        {
 
-                        enemy.GetComponent<EnemyController>().nearByEnemies.Add(other.transform);
+                            enemy.GetComponent<EnemyController>().nearByEnemies.Add(other.transform);
 
+                        }
                     }
                 }
             }
+            
 
         }
 
@@ -73,7 +76,7 @@ public class MysticAlertSphere : MonoBehaviour
             
             if (other.gameObject.GetComponent<Blink>().isBlinking == true && enemy.GetComponent<EnemyController>().state != EnemyController.State.Dead)
             {
-                Debug.Log("Blink");
+                
                 
                 Vector3 dir = (this.transform.position - other.gameObject.transform.position).normalized;
                 enemy.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, other.gameObject.transform.position.z) - dir*3;

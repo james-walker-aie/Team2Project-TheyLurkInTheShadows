@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 473110170243781615}
   - component: {fileID: 4750972524590389472}
   - component: {fileID: 5099192956395695348}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: FireBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4709,7 +4709,7 @@ GameObject:
   - component: {fileID: 2771854244777094476}
   - component: {fileID: 4751141110555673048}
   - component: {fileID: 6861054235963581134}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Dust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9357,7 +9357,7 @@ GameObject:
   - component: {fileID: 9016736154002060251}
   - component: {fileID: 4750503309443968708}
   - component: {fileID: 1271099424944573923}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: RockSpike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14017,7 +14017,7 @@ GameObject:
   - component: {fileID: 114398207280686170}
   - component: {fileID: 4751048431579094258}
   - component: {fileID: 5431887020717964243}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: EarthCrack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18679,7 +18679,7 @@ GameObject:
   - component: {fileID: 7808575982864208705}
   - component: {fileID: 4750845380537126138}
   - component: {fileID: 8083693334156773354}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: RockDebris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23167,7 +23167,7 @@ GameObject:
   - component: {fileID: 322857431784219438}
   - component: {fileID: 4840149327729291568}
   - component: {fileID: 4840149327729291567}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: EarthShatter (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27974,7 +27974,7 @@ GameObject:
   - component: {fileID: 5018267096507097170}
   - component: {fileID: 4750709649509212998}
   - component: {fileID: 8641442098430833404}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: RockSpikeSmall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32564,7 +32564,7 @@ GameObject:
   - component: {fileID: 3647076348654209554}
   - component: {fileID: 4751014825857544732}
   - component: {fileID: 7933285693713089278}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: FireEmbers
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -287,10 +287,14 @@ public class EnemyController : MonoBehaviour
         {
             case State.Guard:
                 //stand still
-                
+
                 //ResetAnimationBools();
                 //anim.SetBool("Guard", true);
                 //ChangeRotation();
+                if (playerInSight)
+                {
+                    state = State.AlertTime;
+                }
 
                 if (guardTime > 0 || Guard)
                 {
@@ -357,6 +361,10 @@ public class EnemyController : MonoBehaviour
                 break;
             case State.Patrol:
                 //go from point to point
+                if (playerInSight)
+                {
+                    state = State.AlertTime;
+                }
                 run = 0;
                 if (Class == Type.Basic)
                 {
@@ -428,57 +436,12 @@ public class EnemyController : MonoBehaviour
                 break;
 
             case State.AlertTime:
-                int timesrun = 0;
+                
 
                 if (playerInSight)
                 {
 
-                    //detect if moved//
-                    bool x1 = false;
-                    bool z1 = false;
-                    float xf1 = 0;
-                    float zf1 = 0;
-
-                    if (transform.position.x > lastPos.x)
-                    {
-                        xf1 = transform.position.x - lastPos.x;
-                        if (xf1 > 0.01)
-                            x1 = true;
-                    }
-                    else
-                    {
-                        xf1 = lastPos.x - transform.position.x;
-                        if (xf1 > 0.01)
-                            x1 = true;
-                    }
-
-
-                    if (transform.position.z > lastPos.z)
-                    {
-                        zf1 = transform.position.z - lastPos.z;
-                        if (zf1 > 0.01)
-                            z1 = true;
-                    }
-                    else
-                    {
-                        zf1 = lastPos.z - transform.position.z;
-                        if (zf1 > 0.01)
-                            z1 = true;
-                    }
-                    //////////////////////////
-                    if (!x1 && !z1)
-                    {
-                        anim.SetFloat("Idle", 0);
-                        ResetAnimationBools();
-                    }
-                    else
-                    {
-                        ResetAnimationBools();
-                        anim.SetBool("Moving", true);
-                    }
-
-
-
+                    IfMoving(lastPos);
                     Rotation();
                     if (timerReset == true)
                     {
@@ -496,12 +459,12 @@ public class EnemyController : MonoBehaviour
                 }
                 else
                 {
-
+                    transform.LookAt(null);
                     timerReset = true;
                     state = State.Patrol;
                 }
 
-                timesrun++;
+                
                 lastPos = transform.position;
                 break;
 
@@ -715,7 +678,7 @@ public class EnemyController : MonoBehaviour
                     if(!c_ctrl.GetComponent<EnemyCombatCtrl>().enemies.Contains(this.transform))
                         c_ctrl.GetComponent<EnemyCombatCtrl>().enemies.Add(this.transform);
                 }
-                AlertNearbyEnemies();
+                
                 if(AttackGroup == 1)
                 {
                     nav.stoppingDistance = 2;
@@ -727,7 +690,7 @@ public class EnemyController : MonoBehaviour
                 
                 Rotation();
                 Raycasts();
-
+                AlertNearbyEnemies();
                 //set destination to pos (pos is determined through Raycasts())//
                 ChoosePos();
                 nav.SetDestination(pos);
@@ -1321,17 +1284,22 @@ public class EnemyController : MonoBehaviour
 
     void AlertNearbyEnemies()
     {
+        
         if (!alertSphere.activeSelf)
         {
             alertSphere.SetActive(true);
         }
+        
         for (int i = 0; i < nearByEnemies.Count; i++)
         {
-            if (!nearByEnemies[i].GetComponent<EnemyController>().playerInSight && !alerted)
+            
+            if (nearByEnemies[i].GetComponent<EnemyController>().state != State.Combat && !alerted)
             {
+                
                 nearByEnemies[i].GetComponent<EnemyController>().alerted = true;
-                if (nearByEnemies[i].GetComponent<EnemyController>().state == State.Patrol || nearByEnemies[i].GetComponent<EnemyController>().state == State.Guard || nearByEnemies[i].GetComponent<EnemyController>().state == State.Searching)
+                if (nearByEnemies[i].GetComponent<EnemyController>().state == State.Patrol || nearByEnemies[i].GetComponent<EnemyController>().state == State.Guard || nearByEnemies[i].GetComponent<EnemyController>().state == State.Searching || nearByEnemies[i].GetComponent<EnemyController>().state == State.AlertTime)
                 {
+                    
                     nearByEnemies[i].GetComponent<EnemyController>().state = State.Alert;
                 }
             }
