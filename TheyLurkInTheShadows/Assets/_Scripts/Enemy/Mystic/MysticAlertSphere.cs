@@ -79,7 +79,18 @@ public class MysticAlertSphere : MonoBehaviour
                 
                 
                 Vector3 dir = (this.transform.position - other.gameObject.transform.position).normalized;
-                enemy.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, other.gameObject.transform.position.z) - dir*3;
+                enemy.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y, other.gameObject.transform.position.z) - dir*2;
+
+                RaycastHit hit;
+
+                if(Physics.Raycast(enemy.transform.position,Vector3.down,out hit, Mathf.Infinity))
+                {
+                    
+                    enemy.transform.position = new Vector3(enemy.transform.position.x, hit.point.y, enemy.transform.position.z);
+
+                }
+                
+
                 blink.GetComponent<ParticleSystem>().Play();
                 enemy.GetComponent<EnemyController>().state = EnemyController.State.Combat;
                 foreach(GameObject part in particles)
