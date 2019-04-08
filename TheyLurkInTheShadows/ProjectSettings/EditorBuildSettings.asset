@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
+    path: Assets/_Scenes/Menus/GameOverScene.unity
+    guid: 0698152aabbc7bf48b6e8aa35556f06c
+  - enabled: 0
     path: Assets/_Scenes/TomE Scenes/TomE Test1.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
@@ -24,8 +27,8 @@ EditorBuildSettings:
     path: Assets/_Scenes/Testing/0.Unity
     guid: 9e1800b060907534791d5f66b89470d4
   - enabled: 1
-    path: Assets/_Scenes/Menus/GameOverScene.unity
-    guid: 0698152aabbc7bf48b6e8aa35556f06c
+    path: Assets/_Scenes/Menus/GameWinScene.unity
+    guid: 0f2c7d692f8d52f41901cfba6f0e0761
   - enabled: 1
     path: Assets/_Scenes/Menus/CreditsMenu.unity
     guid: abffadda438ef3a4db8a70dbedbc764f
