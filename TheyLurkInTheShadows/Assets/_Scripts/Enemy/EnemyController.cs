@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     public bool contin;
     public bool canAttack;
     public bool hit;
-
+    public bool canTaunt;
     bool cMove = false;
     bool timerReset = true;
     bool attacking;
@@ -30,6 +30,7 @@ public class EnemyController : MonoBehaviour
     bool FR;
     bool B;
     bool leap;
+    bool runTuant = true;
     public bool hitP = false;
 
     [Header("Floats")]
@@ -56,6 +57,8 @@ public class EnemyController : MonoBehaviour
     public GameObject Blood;
     public GameObject Special;
     public GameObject Smash;
+    public GameObject HeavyAttackInd;
+    public GameObject BackStab;
     GameObject c_ctrl;
     GameObject player;
 
@@ -98,7 +101,7 @@ public class EnemyController : MonoBehaviour
     Vector2 smoothDeltaPosition = Vector2.zero;
     Vector2 velocity = Vector2.zero;
 
-    
+    public AnimatorOverrideController mystic;
 
     public LayerMask layerMask = ~(1 << 11);
 
@@ -124,6 +127,7 @@ public class EnemyController : MonoBehaviour
         Roll,
         Aggro,
         Chase,
+        Taunt,
         LastPos,
         Hit,
         Dead
@@ -136,7 +140,7 @@ public class EnemyController : MonoBehaviour
     {
         Basic,
         Heavy,
-        Ninja,
+        Mystic,
         Ranged
 
     }
@@ -154,7 +158,10 @@ public class EnemyController : MonoBehaviour
         c_ctrl = GameObject.FindGameObjectWithTag("EC_ctrl");
 
         AS = GetComponent<AudioSource>();
-
+        //if(Class == Type.Mystic)
+        //{
+            //anim.runtimeAnimatorController = mystic;
+        //}
 
         playerCurrentHealth = playerStartingHealth;
         PlayerHealthUI();
@@ -203,10 +210,7 @@ public class EnemyController : MonoBehaviour
             nav.stoppingDistance = 0;
             transform.LookAt(null);
         }
-        else
-        {
-            nav.stoppingDistance = 2;
-        }
+        
 
         if (state == State.Chase)
         {
@@ -218,6 +222,11 @@ public class EnemyController : MonoBehaviour
             if (Class == Type.Heavy)
             {
                 nav.speed = 3.5f / 2;
+            }
+            else
+            if (Class == Type.Mystic)
+            {
+                nav.speed = 4f;
             }
 
         }
@@ -278,10 +287,14 @@ public class EnemyController : MonoBehaviour
         {
             case State.Guard:
                 //stand still
-                //Debug.Log("GUARDING");
+
                 //ResetAnimationBools();
                 //anim.SetBool("Guard", true);
                 //ChangeRotation();
+                if (playerInSight)
+                {
+                    state = State.AlertTime;
+                }
 
                 if (guardTime > 0 || Guard)
                 {
@@ -304,6 +317,11 @@ public class EnemyController : MonoBehaviour
                     if (Class == Type.Heavy)
                     {
                         nav.speed = 3 / 1.2f;
+                    }
+                    else
+                    if(Class == Type.Mystic)
+                    {
+                        nav.speed = 3.5f;
                     }
 
                     if (posTarget == Vector3.zero && patrolSpots.Count > 0)
@@ -343,6 +361,10 @@ public class EnemyController : MonoBehaviour
                 break;
             case State.Patrol:
                 //go from point to point
+                if (playerInSight)
+                {
+                    state = State.AlertTime;
+                }
                 run = 0;
                 if (Class == Type.Basic)
                 {
@@ -353,6 +375,13 @@ public class EnemyController : MonoBehaviour
                 {
                     nav.speed = 3 / 1.2f;
                 }
+                else
+                if (Class == Type.Mystic)
+                {
+                    nav.speed = 3.5f;
+                }
+
+
                 if (!inGuardSpot && !patrolling)
                 {
                     float lowestDist = 10000f;
@@ -396,10 +425,10 @@ public class EnemyController : MonoBehaviour
                     }
                 }
                 float gdis = Vector3.Distance(posTarget, gameObject.transform.position);
-                //Debug.Log("gdis: " + gdis);
+                
                 if (gdis < 2)
                 {
-                    //Debug.Log("Patrolling");
+                    
                     traveling = false;
                     timerReset = true;
                     state = State.Guard;
@@ -407,57 +436,12 @@ public class EnemyController : MonoBehaviour
                 break;
 
             case State.AlertTime:
-                int timesrun = 0;
+                
 
                 if (playerInSight)
                 {
 
-                    //detect if moved//
-                    bool x1 = false;
-                    bool z1 = false;
-                    float xf1 = 0;
-                    float zf1 = 0;
-
-                    if (transform.position.x > lastPos.x)
-                    {
-                        xf1 = transform.position.x - lastPos.x;
-                        if (xf1 > 0.01)
-                            x1 = true;
-                    }
-                    else
-                    {
-                        xf1 = lastPos.x - transform.position.x;
-                        if (xf1 > 0.01)
-                            x1 = true;
-                    }
-
-
-                    if (transform.position.z > lastPos.z)
-                    {
-                        zf1 = transform.position.z - lastPos.z;
-                        if (zf1 > 0.01)
-                            z1 = true;
-                    }
-                    else
-                    {
-                        zf1 = lastPos.z - transform.position.z;
-                        if (zf1 > 0.01)
-                            z1 = true;
-                    }
-                    //////////////////////////
-                    if (!x1 && !z1)
-                    {
-                        anim.SetFloat("Idle", 0);
-                        ResetAnimationBools();
-                    }
-                    else
-                    {
-                        ResetAnimationBools();
-                        anim.SetBool("Moving", true);
-                    }
-
-
-
+                    IfMoving(lastPos);
                     Rotation();
                     if (timerReset == true)
                     {
@@ -475,12 +459,12 @@ public class EnemyController : MonoBehaviour
                 }
                 else
                 {
-
+                    transform.LookAt(null);
                     timerReset = true;
                     state = State.Patrol;
                 }
 
-                timesrun++;
+                
                 lastPos = transform.position;
                 break;
 
@@ -491,7 +475,7 @@ public class EnemyController : MonoBehaviour
                     state = State.Chase;
                 }
 
-                Debug.Log("Alert");
+                
                 alertSphere.SetActive(true);
                 if (playerInSight)
                 {
@@ -528,10 +512,9 @@ public class EnemyController : MonoBehaviour
             case State.Searching:
                 //search near by hiding spots
                 run = .5f;
-                //Debug.Log("Searching");
-                if (searchInt > hidingSpots.Count)
+                
+                if (searchInt > hidingSpots.Count || hidingSpots.Count <= 0)
                 {
-
 
                     state = State.Patrol;
                 }
@@ -639,7 +622,7 @@ public class EnemyController : MonoBehaviour
             case State.Chase:
                 //follow player, if lose sight go to last known point and search
                 run = 1;
-                Debug.Log("Chase");
+                
                 AlertNearbyEnemies();
                 if (playerInSight || alerted)
                 {
@@ -665,7 +648,7 @@ public class EnemyController : MonoBehaviour
             case State.Aggro:
                 //seen player, move for combat
 
-                Debug.Log("Aggro");
+                
                 AlertNearbyEnemies();
                 if (!playerInSight)
                 {
@@ -690,16 +673,28 @@ public class EnemyController : MonoBehaviour
 
             case State.Combat:
                 //fight
-                //Debug.Log("nav: "+nav.velocity);
-                AlertNearbyEnemies();
-                nav.stoppingDistance = 3;
+                if(AttackGroup == 0)
+                {
+                    if(!c_ctrl.GetComponent<EnemyCombatCtrl>().enemies.Contains(this.transform))
+                        c_ctrl.GetComponent<EnemyCombatCtrl>().enemies.Add(this.transform);
+                }
+                
+                if(AttackGroup == 1)
+                {
+                    nav.stoppingDistance = 2;
+                }
+                else
+                {
+                    nav.stoppingDistance = 3.5f;
+                }
+                
                 Rotation();
                 Raycasts();
-
+                AlertNearbyEnemies();
                 //set destination to pos (pos is determined through Raycasts())//
                 ChoosePos();
                 nav.SetDestination(pos);
-                //Debug.Log("Pos: " + pos);
+                
                 /////////////////////////////////////////////////////////////////
 
                 IfMoving(lastPos);
@@ -730,6 +725,12 @@ public class EnemyController : MonoBehaviour
                     state = State.Attack;
                 }
                 ////////////////////////////
+                if(!canAttack && canTaunt)
+                {
+                    
+                    timer = 1.5f;
+                    state = State.Taunt;
+                }
 
                 lastPos = this.transform.position;
 
@@ -737,34 +738,66 @@ public class EnemyController : MonoBehaviour
 
             case State.BeingAttacked:
 
+                if(Class == Type.Heavy)
+                {
+                    HeavyAttackInd.SetActive(false);
+                }
+                ResetAnimationBools();
                 float chance;
                 chance = Random.Range(0f, 1f);
-                if (chance < 0.3f)
+                if(Class == Type.Basic || Class == Type.Heavy)
                 {
-                    timer = .5f;
-                    state = State.Block;
+                    if (chance < 0.3f)
+                    {
+                        timer = .5f;
+                        state = State.Block;
+                    }
+                    else
+                    if (chance > 0.3f && chance < 0.4f)
+                    {
+                        timer = 1;
+                        state = State.Roll;
+                    }
+                    else
+                    {
+                        timer = 1;
+                        state = State.Hit;
+                    }
                 }
                 else
-                if (chance > 0.3f && chance < 0.4f)
+                if(Class == Type.Mystic)
                 {
-                    timer = 1;
-                    state = State.Roll;
+                    if (chance < 0.3f)
+                    {
+                        timer = .5f;
+                        state = State.Block;
+                    }
+                    else
+                    if (chance > 0.3f && chance < 0.6f)
+                    {
+                        timer = 1;
+                        state = State.Roll;
+                    }
+                    else
+                    {
+                        timer = 1;
+                        state = State.Hit;
+                    }
                 }
-                else
-                {
-                    timer = 1;
-                    state = State.Hit;
-                }
+                
 
                 break;
 
             case State.Attack:
-                Debug.Log("Attack");
-                //Debug.Log("YAAAAAAA");
+                
                 attacking = true;
                 canAttack = false;
                 nav.enabled = false;
                 anim.applyRootMotion = true;
+                if(Class == Type.Mystic)
+                {
+                    Rotation();
+                }
                 Attack();
 
 
@@ -861,29 +894,60 @@ public class EnemyController : MonoBehaviour
 
                 break;
 
+            case State.Taunt:
+                
+                nav.enabled = false;
+                //ResetAnimationBools();
+                if (runTuant)
+                {
+                    
+                    float r = Random.Range(0, 4);
+                    switch (r)
+                    {
+                        case 0:
+                            r = 0;
+                            break;
+                        case 1:
+                            r = 0.5f;
+                            break;
+                        case 2:
+                            r = 1;
+                            break;
+                    }
+                    anim.SetFloat("taunt", r);
+                    anim.SetBool("Taunt", true);
+                    runTuant = false;
+
+                }
+                timer -= Time.deltaTime;
+                if (timer <= 0)
+                {
+                    canTaunt = false;
+                    runTuant = true;
+                    nav.enabled = true;
+                    ResetAnimationBools();
+                    state = State.Combat;
+                }
+
+                break;
+
             case State.Dead:
                 //dead
                 AS.clip = die;
                 AS.Play();
-                sight.SetActive(false);
+                if(sight != null)
+                    sight.SetActive(false);
                 ResetAnimationBools();
                 anim.SetBool("Dead", true);
                 nav.enabled = false;
-                GetComponent<CapsuleCollider>().isTrigger = true;
+                GetComponent<CapsuleCollider>().enabled = false;
                 GetComponent<Rigidbody>().isKinematic = true;
+                BackStab.SetActive(false);
                 if (c_ctrl.GetComponent<EnemyCombatCtrl>().enemies.Contains(this.transform))
                 {
                     c_ctrl.GetComponent<EnemyCombatCtrl>().enemies.Remove(this.transform);
                 }
-                /*
-                if (c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup1.Contains(this.transform))
-                {
-                    c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup1.Remove(this.transform);
-                }
-                if (c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup2.Contains(this.transform))
-                {
-                    c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup2.Remove(this.transform);
-                }*/
+                
                 if (AttackGroup == 1)
                 {
 
@@ -894,6 +958,7 @@ public class EnemyController : MonoBehaviour
 
                     c_ctrl.GetComponent<EnemyCombatCtrl>().AttackGroup2.Remove(this.transform);
                 }
+                
                 GetComponent<EnemyController>().enabled = false;
 
 
@@ -907,7 +972,7 @@ public class EnemyController : MonoBehaviour
     {
         if (other.tag == "Bush")
         {
-            Debug.Log("Enter");
+            
             if (state == State.Dead)
             {
                 Hidden = true;
@@ -927,7 +992,7 @@ public class EnemyController : MonoBehaviour
     {
         if (other.tag == "Bush")
         {
-            Debug.Log("Stay");
+            
             if (state == State.Dead)
             {
                 Hidden = true;
@@ -938,7 +1003,7 @@ public class EnemyController : MonoBehaviour
                 ResetAnimationBools();
                 anim.SetBool("Searching", true);
             }
-            Debug.Log(other.name);
+            
         }
 
     }
@@ -948,7 +1013,7 @@ public class EnemyController : MonoBehaviour
     {
         if (other.tag == "Bush")
         {
-            Debug.Log("Exit");
+            
             if (state == State.Dead)
             {
                 Hidden = false;
@@ -978,12 +1043,15 @@ public class EnemyController : MonoBehaviour
         anim.SetBool("Roll", false);
         anim.SetBool("Blocked", false);
         anim.SetBool("Searching", false);
+        anim.SetBool("Taunt", false);
     }
 
     void Rotation()
     {
         transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
     }
+    
+    
 
     void Raycasts()
     {
@@ -994,10 +1062,20 @@ public class EnemyController : MonoBehaviour
         RaycastHit hitFLeft;
         RaycastHit hitBack;
 
-        Debug.Log(Vector3.forward);
+        
         Vector3 sp = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         //forward
-        if (Physics.Raycast(sp, transform.forward, out hitFoward, d + .05f, layerMask))
+        float d2;
+        if (AttackGroup == 1)
+        {
+            d2 = d;
+        }
+        else
+        {
+            d2 = 3.5f;
+        }
+        
+        if (Physics.Raycast(sp, transform.forward, out hitFoward, d2 + .05f, layerMask))
         {
 
             if (hitFoward.collider.tag == "Player")
@@ -1142,7 +1220,18 @@ public class EnemyController : MonoBehaviour
 
     void ChoosePos()
     {
-        if (distance < 2)
+
+        float d = 2;
+        if(AttackGroup == 1)
+        {
+            d = 2;
+        }
+        else
+        {
+            d = 3.5f;
+        }
+
+        if (distance < d)
         {
             if (!B)
             {
@@ -1177,7 +1266,15 @@ public class EnemyController : MonoBehaviour
                 }
                 else
                 {
-                    nav.stoppingDistance = 2;
+                    if(AttackGroup == 1)
+                    {
+                        nav.stoppingDistance = 2;
+                    }
+                    else
+                    {
+                        nav.stoppingDistance = 3.5f;
+                    }
+                    
                     pos = player.transform.position;
                 }
             }
@@ -1187,17 +1284,22 @@ public class EnemyController : MonoBehaviour
 
     void AlertNearbyEnemies()
     {
+        
         if (!alertSphere.activeSelf)
         {
             alertSphere.SetActive(true);
         }
+        
         for (int i = 0; i < nearByEnemies.Count; i++)
         {
-            if (!nearByEnemies[i].GetComponent<EnemyController>().playerInSight && !alerted)
+            
+            if (nearByEnemies[i].GetComponent<EnemyController>().state != State.Combat && !alerted)
             {
+                
                 nearByEnemies[i].GetComponent<EnemyController>().alerted = true;
-                if (nearByEnemies[i].GetComponent<EnemyController>().state == State.Patrol || nearByEnemies[i].GetComponent<EnemyController>().state == State.Guard || nearByEnemies[i].GetComponent<EnemyController>().state == State.Searching)
+                if (nearByEnemies[i].GetComponent<EnemyController>().state == State.Patrol || nearByEnemies[i].GetComponent<EnemyController>().state == State.Guard || nearByEnemies[i].GetComponent<EnemyController>().state == State.Searching || nearByEnemies[i].GetComponent<EnemyController>().state == State.AlertTime)
                 {
+                    
                     nearByEnemies[i].GetComponent<EnemyController>().state = State.Alert;
                 }
             }
@@ -1208,16 +1310,30 @@ public class EnemyController : MonoBehaviour
     {
         if (hit)
         {
-            if (player.GetComponent<PController>().isBlocking != true)
+            if (player.GetComponent<PController>().isBlocking != true || GetComponentInChildren<HitColliders>().Heavy2)
             {
-               player.GetComponent<PController>().health -= 10;
+                switch (Class)
+                {
+                    case Type.Basic:
+                        player.GetComponent<PController>().health -= 10;
+                        break;
+                    case Type.Heavy:
+                        if(!GetComponentInChildren<HitColliders>().Heavy2)
+                            player.GetComponent<PController>().health -= 25;
+                        break;
+                    case Type.Mystic:
+                        player.GetComponent<PController>().health -= 20;
+                        break;
+                }
+
+                
 
                 playerCurrentHealth = player.GetComponent<PController>().health;
                 PlayerHealthUI();
 
                 if (GetComponentInChildren<HitColliders>().Heavy2)
                 {
-                    Debug.Log("Hit");
+                    HeavyAttackInd.SetActive(false);
                     Instantiate(Special, Smash.transform.position, this.transform.rotation);
                     AS.clip = special;
                     AS.Play();
@@ -1228,9 +1344,13 @@ public class EnemyController : MonoBehaviour
             else
             {
                 timer = .8f;
+                player.GetComponent<PController>().blockMeter -= 4;
                 state = State.Blocked;
+                
             }
 
+            if(GetComponentInChildren<HitColliders>().Heavy2)
+                HeavyAttackInd.SetActive(false);
 
         }
 
@@ -1275,7 +1395,7 @@ public class EnemyController : MonoBehaviour
         if (Class == Type.Heavy && distance > 4)
         {
             num = 1;
-            GetComponentInChildren<HitColliders>().Heavy2 = true;
+            
         }
 
 
@@ -1334,6 +1454,7 @@ public class EnemyController : MonoBehaviour
                             ResetAnimationBools();
                             if (leap)
                                 anim.SetBool("Lunge", true);
+                            GetComponentInChildren<HitColliders>().Heavy2 = false;
                             anim.SetBool("Attack1", true);
                             timer = .8f;
                             lastAttack = 0;
@@ -1343,9 +1464,55 @@ public class EnemyController : MonoBehaviour
                             if (leap)
                                 anim.SetBool("Lunge", true);
                             anim.SetBool("Attack2", true);
+                            HeavyAttackInd.SetActive(true);
                             GetComponentInChildren<HitColliders>().Heavy2 = true;
                             leap = false;
                             timer = 2.3f;
+                            lastAttack = 1;
+                            break;
+                        case 2:
+                            ResetAnimationBools();
+                            if (leap)
+                                anim.SetBool("Lunge", true);
+                            GetComponentInChildren<HitColliders>().Heavy2 = false;
+                            anim.SetBool("Combo1", true);
+                            timer = 2.5f;
+                            lastAttack = 2;
+                            break;
+                        case 3:
+                            ResetAnimationBools();
+                            if (leap)
+                                anim.SetBool("Lunge", true);
+                            GetComponentInChildren<HitColliders>().Heavy2 = false;
+                            anim.SetBool("Combo2", true);
+                            timer = 2.4f;
+                            lastAttack = 3;
+                            break;
+                    }
+                }
+
+                break;
+            case Type.Mystic:
+                if (timer <= 0)
+                {
+
+                    switch (num)
+                    {
+                        case 0:
+                            ResetAnimationBools();
+                            if (leap)
+                                anim.SetBool("Lunge", true);
+
+                            anim.SetBool("Attack1", true);
+                            timer = 1.5f;
+                            lastAttack = 0;
+                            break;
+                        case 1:
+                            ResetAnimationBools();
+                            if (leap)
+                                anim.SetBool("Lunge", true);
+                            anim.SetBool("Attack2", true);
+                            timer = 1.5f;
                             lastAttack = 1;
                             break;
                         case 2:
@@ -1366,7 +1533,6 @@ public class EnemyController : MonoBehaviour
                             break;
                     }
                 }
-
                 break;
         }
 

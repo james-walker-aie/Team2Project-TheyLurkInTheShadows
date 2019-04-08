@@ -35,8 +35,13 @@ public class DamageColliders : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            Debug.Log("Collision has occured");
-            if(other.GetComponent<EnemyController>().state != EnemyController.State.Dead)
+            if (GetComponentInParent<PController>().isBackstabbing == true)
+            {
+                other.gameObject.GetComponent<EnemyController>().health = 0;
+            }
+
+            
+            if(other.GetComponent<EnemyController>().state != EnemyController.State.Dead && !GetComponentInParent<PController>().isBackstabbing)
             {
                 other.GetComponent<EnemyController>().state = EnemyController.State.BeingAttacked;
             }
@@ -44,10 +49,7 @@ public class DamageColliders : MonoBehaviour
             AudioClip clip = GetRandomClip();
             audioSource.PlayOneShot(clip);
 
-            if (GetComponentInParent<PController>().isBackstabbing == true)
-            {
-                other.gameObject.GetComponent<EnemyController>().health -= damage;
-            }
+            
 
             damage = 0;
 

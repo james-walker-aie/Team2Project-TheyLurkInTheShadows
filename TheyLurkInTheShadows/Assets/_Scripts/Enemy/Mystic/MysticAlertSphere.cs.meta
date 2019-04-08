@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 42ac811e84d1a3e42b922479f44b14e1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - enemy: {instanceID: 0}
+  - blink: {fileID: 9107829482262636485, guid: 6c4b3758268319949ad37975416da6a7, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
