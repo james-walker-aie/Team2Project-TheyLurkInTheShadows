@@ -13,8 +13,8 @@ public class PlayerDetails : MonoBehaviour
 
     public PlayerDetails(Player player)
     {
-        level = player.level;
-        health = player.health;
+       // level = player.level;
+       // health = player.health;
 
         playerPosition = new float[3];
 

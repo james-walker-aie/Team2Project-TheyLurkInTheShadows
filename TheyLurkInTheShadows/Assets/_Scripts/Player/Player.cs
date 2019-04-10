@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] Image playerHealthIcon;
+    /*[SerializeField] Image playerHealthIcon;
     [SerializeField] bool isPlayer = false;
     int playerCurrentHealth;
     public int health = 100;
-    public int level = 1;
+    public int level = 1; 
 
 
-    public void SavePlayer()
+   /* public void SavePlayer()
     {
         SaveLoadSystem.SavePlayer(this);
     }
@@ -29,6 +31,21 @@ public class Player : MonoBehaviour
         position.y = details.playerPosition[1];
         position.z = details.playerPosition[2];
         transform.position = position;
+    }*/
+
+    private SaveMaster saveMas;
+
+    void Start()
+    {
+        saveMas = GameObject.FindGameObjectWithTag("saveMas").GetComponent<SaveMaster>();
+        transform.position = saveMas.checkpointPos;
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
 }
