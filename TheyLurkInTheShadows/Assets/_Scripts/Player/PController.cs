@@ -38,6 +38,8 @@ public class PController : MonoBehaviour
     public GameObject attackCollider;
     public GameObject backstabCollider;
 
+    public LayerMask layerMask = ~(1 << 11);
+
     public Transform sightSync;
 
     #region SECRET
@@ -71,6 +73,14 @@ public class PController : MonoBehaviour
         playerAnimator.SetFloat("MovementBlendY", ((Quaternion.Euler(0, 315, 0) * playerRB.rotation) * new Vector3(-Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"))).normalized.z);
 
         PlayerRotation();
+
+        RaycastHit hit;
+
+        if(Physics.Raycast(transform.position, Vector3.down,out hit, 3,layerMask))
+        {
+            Debug.DrawRay(transform.position, Vector3.down, Color.red);
+            transform.position = new Vector3(transform.position.x, hit.point.y + 0.99f , transform.position.z);
+        }
 
         if (Input.GetKey(KeyCode.W) == true || Input.GetKey(KeyCode.A) == true || Input.GetKey(KeyCode.S) == true || Input.GetKey(KeyCode.D) == true)
         {
@@ -315,14 +325,16 @@ public class PController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "BackStab")
+
+        if (other.gameObject.tag == "BackStab")
+        {
+            canBackstab = false;
+        }
+
+        if (other.tag == "Bush")
         {
             hidden = false;
         }
 
-        if (other.gameObject.tag == "Enemy")
-        {
-            canBackstab = false;
-        }
     }
 }
