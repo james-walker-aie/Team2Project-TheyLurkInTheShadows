@@ -9,6 +9,7 @@ TagManager:
   - EC_ctrl
   - BackStab
   - Music Manager
+  - saveMas
   layers:
   - Default
   - TransparentFX
