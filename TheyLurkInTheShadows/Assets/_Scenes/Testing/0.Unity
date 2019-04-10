@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3762,12 +3762,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1313289358}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &1316961944 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 7188277636386556498, guid: 0a6c74c867d5cf343b5cc0b6cb270790,
-    type: 3}
-  m_PrefabInstance: {fileID: 2004470299}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1332539465
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3918,7 +3912,7 @@ PrefabInstance:
         type: 3}
       propertyPath: source
       value: 
-      objectReference: {fileID: 1316961944}
+      objectReference: {fileID: 0}
     - target: {fileID: 3012555183351079697, guid: 38a67e01179e7a6428cacbe34d51b96a,
         type: 3}
       propertyPath: particlePrefab
@@ -4099,6 +4093,11 @@ PrefabInstance:
       propertyPath: Guard
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1254483357770727150, guid: 0a6c74c867d5cf343b5cc0b6cb270790,
+        type: 3}
+      propertyPath: playerHealthIcon
+      value: 
+      objectReference: {fileID: 1177236841}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a6c74c867d5cf343b5cc0b6cb270790, type: 3}
 --- !u!1 &1532517848 stripped
@@ -5150,6 +5149,16 @@ PrefabInstance:
       propertyPath: Guard
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1254483357770727150, guid: 0a6c74c867d5cf343b5cc0b6cb270790,
+        type: 3}
+      propertyPath: patrolSpots.Array.data[0]
+      value: 
+      objectReference: {fileID: 553020214}
+    - target: {fileID: 1254483357770727150, guid: 0a6c74c867d5cf343b5cc0b6cb270790,
+        type: 3}
+      propertyPath: playerHealthIcon
+      value: 
+      objectReference: {fileID: 1177236841}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a6c74c867d5cf343b5cc0b6cb270790, type: 3}
 --- !u!4 &2009626864 stripped
