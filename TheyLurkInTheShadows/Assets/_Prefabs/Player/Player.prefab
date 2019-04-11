@@ -509,6 +509,9 @@ MonoBehaviour:
   hidden: 0
   isBlocking: 0
   isBackstabbing: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4407
   lights: []
   playerToMouse: {x: 0, y: 0, z: 0}
   playerAnimator: {fileID: 5072556860254337515}
@@ -650,6 +653,7 @@ MonoBehaviour:
   target: {fileID: 0}
   invalid: 0
   AreaMaskCheck: 1
+  cameraLag: 0
   timerDelay: 5
   MaxRange: 15
   currentTime: 0
@@ -764,6 +768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fde951404949164eaf767974df773d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageConst: 200
   damage: 200
   damageCollider: {fileID: 902482730203446801}
   clips:
@@ -970,8 +975,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fde951404949164eaf767974df773d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageConst: 20
   damage: 20
-  damageCollider: {fileID: 0}
+  damageCollider: {fileID: 902482730256659759}
   clips:
   - {fileID: 8300000, guid: 3be8e984651ac3341a4d395b26fea559, type: 3}
   - {fileID: 8300000, guid: d854421cdc3d0aa44b5d3ba8069ab23d, type: 3}

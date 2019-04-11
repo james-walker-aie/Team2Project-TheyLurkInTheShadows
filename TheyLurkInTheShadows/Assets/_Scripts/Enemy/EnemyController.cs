@@ -291,7 +291,7 @@ public class EnemyController : MonoBehaviour
                 //ResetAnimationBools();
                 //anim.SetBool("Guard", true);
                 //ChangeRotation();
-                if (playerInSight)
+                if (playerInSight && player.GetComponent<PController>().hidden == false)
                 {
                     state = State.AlertTime;
                 }
@@ -361,7 +361,7 @@ public class EnemyController : MonoBehaviour
                 break;
             case State.Patrol:
                 //go from point to point
-                if (playerInSight)
+                if (playerInSight && player.GetComponent<PController>().hidden == false)
                 {
                     state = State.AlertTime;
                 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class Blink : MonoBehaviour
 {
@@ -17,6 +18,11 @@ public class Blink : MonoBehaviour
     public bool invalid = false;
     float pokeForce;
     public int AreaMaskCheck = 0;
+    public bool cameraLag = false;
+
+    public Animator postProcessingAnim;
+
+    private bool blinkableSurface;
 
     [SerializeField]
     public float timerDelay = 5f;
@@ -44,6 +50,16 @@ public class Blink : MonoBehaviour
         if (Physics.Raycast(ray, out hit, Mathf.Infinity , layerMask))
         {
             ball.transform.position = hit.point;
+
+            if (hit.collider.tag == "Blinkable")
+            {
+                blinkableSurface = true;      
+            }
+            else
+            {
+                blinkableSurface = false;
+            }
+
         }
 
         invalid = NavMesh.Raycast(transform.position + Vector3.up, ball.transform.position, out Hit, AreaMaskCheck);
@@ -60,15 +76,30 @@ public class Blink : MonoBehaviour
         {
             if (distance <= MaxRange && currentTime >= timerDelay)
             {
-                
+                cameraLag = true;
                 transform.position = ball.transform.position + Vector3.up;
                 isBlinking = true;
                 currentTime = 0;
                 GetComponent<BlinkParticles>().BlinkParticleTrigger();
+                postProcessingAnim.SetTrigger("Blink");
                 
             }
 
             //isBlinking = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F) && blinkableSurface == true)
+        {
+            if (distance <= MaxRange && currentTime >= timerDelay)
+            {
+                cameraLag = true;
+                transform.position = ball.transform.position + Vector3.up;
+                isBlinking = true;
+                currentTime = 0;
+                GetComponent<BlinkParticles>().BlinkParticleTrigger();
+                postProcessingAnim.SetTrigger("Blink");
+
+            }
         }
 
         //to do: a max range that can be changed in the editor, make the teleport ignore the AI sight cones, add in a cooldown rate for teleporting.
