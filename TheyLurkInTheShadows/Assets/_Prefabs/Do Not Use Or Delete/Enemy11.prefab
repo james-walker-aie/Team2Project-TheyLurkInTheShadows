@@ -1948,6 +1948,7 @@ MonoBehaviour:
   contin: 0
   canAttack: 0
   hit: 0
+  canTaunt: 0
   hitP: 0
   health: 100
   guardTime: 5
@@ -1966,6 +1967,8 @@ MonoBehaviour:
   Blood: {fileID: 8230785883024040303}
   Special: {fileID: 0}
   Smash: {fileID: 0}
+  HeavyAttackInd: {fileID: 0}
+  BackStab: {fileID: 132}
   posTarget: {x: 0, y: 0, z: 0}
   footsteps:
   - {fileID: 8300000, guid: e7740ceb29bf4cc49aabf9cbf567c621, type: 3}
@@ -1978,6 +1981,7 @@ MonoBehaviour:
   - {fileID: 0}
   nearByEnemies: []
   spottedDeadEnemies: []
+  mystic: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 6455
@@ -3822,10 +3826,10 @@ MonoBehaviour:
   green: {fileID: 0}
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294966271
+    m_Bits: 47415
   layerMask2:
     serializedVersion: 2
-    m_Bits: 823
+    m_Bits: 2359
 --- !u!1 &223
 GameObject:
   m_ObjectHideFlags: 0

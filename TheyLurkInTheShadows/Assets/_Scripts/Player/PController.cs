@@ -79,6 +79,7 @@ public class PController : MonoBehaviour
         if(Physics.Raycast(transform.position, Vector3.down,out hit, 3,layerMask))
         {
             Debug.DrawRay(transform.position, Vector3.down, Color.red);
+            Debug.Log("Hit: " + hit.collider.name + " :positon: " + hit.collider.transform.position + " :tag: " + hit.collider.tag);
             transform.position = new Vector3(transform.position.x, hit.point.y + 0.99f , transform.position.z);
         }
 

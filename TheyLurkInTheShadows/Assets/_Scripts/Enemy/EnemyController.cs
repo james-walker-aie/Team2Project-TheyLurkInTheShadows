@@ -361,6 +361,7 @@ public class EnemyController : MonoBehaviour
                 break;
             case State.Patrol:
                 //go from point to point
+                //Debug.Log("Patrol");
                 if (playerInSight && player.GetComponent<PController>().hidden == false)
                 {
                     state = State.AlertTime;
@@ -436,11 +437,11 @@ public class EnemyController : MonoBehaviour
                 break;
 
             case State.AlertTime:
-                
+               // Debug.Log("Alertime");
 
                 if (playerInSight)
                 {
-
+                   // Debug.Log("Player in sight: " + playerInSight);
                     IfMoving(lastPos);
                     Rotation();
                     if (timerReset == true)
@@ -459,6 +460,8 @@ public class EnemyController : MonoBehaviour
                 }
                 else
                 {
+                    //Debug.Log("Player not in sight: " + playerInSight);
+
                     transform.LookAt(null);
                     timerReset = true;
                     state = State.Patrol;
@@ -511,6 +514,7 @@ public class EnemyController : MonoBehaviour
                 break;
             case State.Searching:
                 //search near by hiding spots
+                Debug.Log("Searching");
                 run = .5f;
                 
                 if (searchInt > hidingSpots.Count || hidingSpots.Count <= 0)

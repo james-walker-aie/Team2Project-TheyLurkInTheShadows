@@ -2346,7 +2346,7 @@ PrefabInstance:
     - target: {fileID: 6854988960342970331, guid: 3df31bb8f1bd20044a4db6f39bf55336,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.402394
+      value: 4.92
       objectReference: {fileID: 0}
     - target: {fileID: 6854988960342970331, guid: 3df31bb8f1bd20044a4db6f39bf55336,
         type: 3}
@@ -2398,6 +2398,11 @@ PrefabInstance:
       propertyPath: patrolSpots.Array.data[0]
       value: 
       objectReference: {fileID: 1521855661}
+    - target: {fileID: 4053996327274859513, guid: 3df31bb8f1bd20044a4db6f39bf55336,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3df31bb8f1bd20044a4db6f39bf55336, type: 3}
 --- !u!1001 &1528278346

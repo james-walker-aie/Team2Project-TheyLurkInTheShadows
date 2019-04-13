@@ -40,11 +40,21 @@ public class DamageColliders : MonoBehaviour
                 other.gameObject.GetComponent<EnemyController>().health = 0;
             }
 
-            
-            if(other.GetComponent<EnemyController>().state != EnemyController.State.Dead && !GetComponentInParent<PController>().isBackstabbing)
+
+            if(other.GetComponent<EnemyController>().state != EnemyController.State.Dead)
             {
-                other.GetComponent<EnemyController>().state = EnemyController.State.BeingAttacked;
+                if (other.GetComponent<EnemyController>().state == EnemyController.State.Guard || other.GetComponent<EnemyController>().state == EnemyController.State.AlertTime || 
+                    other.GetComponent<EnemyController>().state == EnemyController.State.Patrol || other.GetComponent<EnemyController>().state == EnemyController.State.Hit)
+                {
+                    other.GetComponent<EnemyController>().state = EnemyController.State.Hit;
+                }
+                else
+                if (!GetComponentInParent<PController>().isBackstabbing)
+                {
+                    other.GetComponent<EnemyController>().state = EnemyController.State.BeingAttacked;
+                }
             }
+  
 
             AudioClip clip = GetRandomClip();
             audioSource.PlayOneShot(clip);

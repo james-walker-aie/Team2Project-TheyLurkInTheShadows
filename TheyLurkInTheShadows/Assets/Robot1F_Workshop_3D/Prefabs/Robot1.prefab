@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722801497}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.05, z: 1.954}
+  m_LocalPosition: {x: 0, y: 0.05, z: 1.28}
   m_LocalScale: {x: 0.063115, y: 0.06844133, z: 0.079938106}
   m_Children: []
   m_Father: {fileID: 4287198627233576}
@@ -1520,7 +1520,7 @@ GameObject:
   - component: {fileID: 2489635341117744355}
   - component: {fileID: 4101876190422644133}
   - component: {fileID: 51147709505070566}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Robot1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -2578,7 +2578,7 @@ MonoBehaviour:
     m_Bits: 4294966271
   layerMask2:
     serializedVersion: 2
-    m_Bits: 823
+    m_Bits: 2359
 --- !u!1001 &2128656619611657419
 PrefabInstance:
   m_ObjectHideFlags: 0
