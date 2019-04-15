@@ -144,7 +144,7 @@ MonoBehaviour:
   backstabCollider: {fileID: 902482728882727757}
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294965247
+    m_Bits: 61751
   sightSync: {fileID: 5072556860263421447}
   secretSound: {fileID: 0}
   secretLights: {fileID: 0}

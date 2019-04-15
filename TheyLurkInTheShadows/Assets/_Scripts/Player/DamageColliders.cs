@@ -46,6 +46,7 @@ public class DamageColliders : MonoBehaviour
                 if (other.GetComponent<EnemyController>().state == EnemyController.State.Guard || other.GetComponent<EnemyController>().state == EnemyController.State.AlertTime || 
                     other.GetComponent<EnemyController>().state == EnemyController.State.Patrol || other.GetComponent<EnemyController>().state == EnemyController.State.Hit)
                 {
+                    other.GetComponent<EnemyController>().playOnce = true;
                     other.GetComponent<EnemyController>().state = EnemyController.State.Hit;
                 }
                 else

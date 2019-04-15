@@ -9,11 +9,24 @@ public class MysticAlertSphere : MonoBehaviour
     bool playerNearby;
     public GameObject blink;
     public GameObject[] particles;
+    public AudioClip nearby;
+    AudioSource AS;
+
+    private void Awake()
+    {
+        AS = GetComponent<AudioSource>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        
-        
-        if(enemy.GetComponent<EnemyController>().state == EnemyController.State.Dead)
+
+        if(other.gameObject.tag == "Player")
+        {
+            AS.clip = nearby;
+            AS.Play();
+        }
+
+        if (enemy.GetComponent<EnemyController>().state == EnemyController.State.Dead)
         {
             foreach(GameObject part in particles)
             {
@@ -106,7 +119,12 @@ public class MysticAlertSphere : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Bush")
+        if (other.gameObject.tag == "Player")
+        {
+            AS.Stop();
+        }
+
+        if (other.tag == "Bush")
         {
             if (enemy.GetComponent<EnemyController>().hidingSpots.Contains(other.transform))
                 enemy.GetComponent<EnemyController>().hidingSpots.Remove(other.transform);

@@ -1974,8 +1974,28 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e7740ceb29bf4cc49aabf9cbf567c621, type: 3}
   - {fileID: 8300000, guid: a968ee46a00e27242ad0b1775967f994, type: 3}
   - {fileID: 8300000, guid: 6263503aa73ae2045ab2e1ae10fb5d2c, type: 3}
-  special: {fileID: 0}
+  special:
+  - {fileID: 8300000, guid: 48f3cc2dfb6503e47a9ab73a92697e65, type: 3}
+  - {fileID: 8300000, guid: 588dcc43c377ca44abd175ffd706cfa3, type: 3}
+  beenHit:
+  - {fileID: 8300000, guid: 3fa089899ae5b78469d56cd8e7bf24b1, type: 3}
+  - {fileID: 8300000, guid: dcea5d7dc844d35429ea839c28114e80, type: 3}
+  attackGrunt:
+  - {fileID: 8300000, guid: a390f0226aaa7554e8c58a2d9f84afa8, type: 3}
+  - {fileID: 8300000, guid: 99043a27708893945a989f6f1142419b, type: 3}
+  M_beenHit:
+  - {fileID: 8300000, guid: 793fb8e006314cb47a3dd4a9c4a9e39f, type: 3}
+  - {fileID: 8300000, guid: 3d4788927342888459647091742b6f39, type: 3}
+  M_attackGrunt:
+  - {fileID: 8300000, guid: e9add425b64726f4dbac3f41110ec105, type: 3}
+  - {fileID: 8300000, guid: e584be0bcd0091f44ab2307c409642a7, type: 3}
+  S_block: {fileID: 8300000, guid: ad621043ba64dbe4a8c07843fe90cbca, type: 3}
+  W_block:
+  - {fileID: 8300000, guid: d736c272b768fe34a9bac14b700ee5e2, type: 3}
+  - {fileID: 8300000, guid: 1d3248799533abd4884200dae7769203, type: 3}
+  - {fileID: 8300000, guid: 269916bbc3245ef478dff8e3fb895d79, type: 3}
   die: {fileID: 8300000, guid: 91380251091cf9841aa0e7562fbd88a5, type: 3}
+  nearbyMystic: {fileID: 8300000, guid: 94f92638654f4aa4db26ba2fd53a6981, type: 3}
   hidingSpots: []
   patrolSpots:
   - {fileID: 0}

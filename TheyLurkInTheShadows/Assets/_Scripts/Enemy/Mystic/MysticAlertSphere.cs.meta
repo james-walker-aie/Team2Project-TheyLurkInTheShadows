@@ -6,6 +6,7 @@ MonoImporter:
   defaultReferences:
   - enemy: {instanceID: 0}
   - blink: {fileID: 9107829482262636485, guid: 6c4b3758268319949ad37975416da6a7, type: 3}
+  - nearby: {fileID: 8300000, guid: 94f92638654f4aa4db26ba2fd53a6981, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -509,14 +509,14 @@ MonoBehaviour:
   hidden: 0
   isBlocking: 0
   isBackstabbing: 0
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 4407
   lights: []
   playerToMouse: {x: 0, y: 0, z: 0}
   playerAnimator: {fileID: 5072556860254337515}
   attackCollider: {fileID: 902482730256659759}
   backstabCollider: {fileID: 902482730203446801}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4407
   sightSync: {fileID: 5072556860263421447}
   secretSound: {fileID: 8300000, guid: 7e43753725a5d1d4f93128cce73481f1, type: 3}
   secretLights: {fileID: 595479157}
@@ -651,9 +651,11 @@ MonoBehaviour:
   cam: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
+  isBlinking: 0
   invalid: 0
   AreaMaskCheck: 1
   cameraLag: 0
+  postProcessingAnim: {fileID: 0}
   timerDelay: 5
   MaxRange: 15
   currentTime: 0
@@ -677,7 +679,7 @@ GameObject:
   - component: {fileID: 902482730203446802}
   - component: {fileID: 902482730203446803}
   - component: {fileID: 1729207251}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BackstabDamageCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -884,7 +886,7 @@ GameObject:
   - component: {fileID: 902482730256659752}
   - component: {fileID: 902482730256659753}
   - component: {fileID: 91051083}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BasicDamageCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
