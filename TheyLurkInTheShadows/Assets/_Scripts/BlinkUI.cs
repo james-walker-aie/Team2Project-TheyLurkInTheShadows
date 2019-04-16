@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class BlinkUI : MonoBehaviour
 {
     [SerializeField] Image playerBlinkIcon;
-    [SerializeField] bool isPlayer = false;
 
     [SerializeField]
     public float timerDelay = 5f;

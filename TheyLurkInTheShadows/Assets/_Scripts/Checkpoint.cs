@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Checkpoint : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class Checkpoint : MonoBehaviour
         if (hit.CompareTag("Player"))
         {
             saveMas.checkpointPos = transform.position;
+            PlayerPrefs.SetString("LastSceneLoaded", SceneManager.GetActiveScene().name);
 
             Debug.Log("Checkpoint hit");
         }
