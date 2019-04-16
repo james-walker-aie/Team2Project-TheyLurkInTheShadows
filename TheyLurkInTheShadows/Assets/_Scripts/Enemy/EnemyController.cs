@@ -1382,7 +1382,8 @@ public class EnemyController : MonoBehaviour
             {
                 
                 nearByEnemies[i].GetComponent<EnemyController>().alerted = true;
-                if (nearByEnemies[i].GetComponent<EnemyController>().state == State.Patrol || nearByEnemies[i].GetComponent<EnemyController>().state == State.Guard || nearByEnemies[i].GetComponent<EnemyController>().state == State.Searching || nearByEnemies[i].GetComponent<EnemyController>().state == State.AlertTime)
+                if (nearByEnemies[i].GetComponent<EnemyController>().state == State.Patrol || nearByEnemies[i].GetComponent<EnemyController>().state == State.Guard || 
+                    nearByEnemies[i].GetComponent<EnemyController>().state == State.Searching || nearByEnemies[i].GetComponent<EnemyController>().state == State.AlertTime)
                 {
                     
                     nearByEnemies[i].GetComponent<EnemyController>().state = State.Alert;
