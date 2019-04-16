@@ -636,6 +636,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 553210091}
   cameraSmoothingSpeed: 0.125
+  dynamicCameraSmoothingSpeed: 0
   offset: {x: -7, y: 10, z: -7}
 --- !u!1 &256873331
 GameObject:
@@ -1902,10 +1903,10 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 9f8f97a92d40a5a43b8f987bb381b1eb, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 1
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -3395,6 +3396,21 @@ PrefabInstance:
       propertyPath: secretLights
       value: 
       objectReference: {fileID: 595479157}
+    - target: {fileID: 5502312053721309483, guid: 38a67e01179e7a6428cacbe34d51b96a,
+        type: 3}
+      propertyPath: isPlayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5502312053721309483, guid: 38a67e01179e7a6428cacbe34d51b96a,
+        type: 3}
+      propertyPath: blockIcon
+      value: 
+      objectReference: {fileID: 1017431591}
+    - target: {fileID: 5502312053721309483, guid: 38a67e01179e7a6428cacbe34d51b96a,
+        type: 3}
+      propertyPath: visIcon
+      value: 
+      objectReference: {fileID: 6784069}
     - target: {fileID: 902482728882894701, guid: 38a67e01179e7a6428cacbe34d51b96a,
         type: 3}
       propertyPath: m_LocalRotation.y
