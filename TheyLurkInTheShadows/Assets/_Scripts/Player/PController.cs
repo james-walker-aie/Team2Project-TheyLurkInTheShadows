@@ -69,8 +69,8 @@ public class PController : MonoBehaviour
     {
         playerRB = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
-        blockIcon = GetComponent<Graphic>();
-        visIcon = GetComponent<Graphic>();
+        //blockIcon = GetComponent<Graphic>();
+        //visIcon = GetComponent<Graphic>();
         activeBlockColor = Color.blue;
         activeVisColor = Color.yellow;
         defaultColor = Color.white;

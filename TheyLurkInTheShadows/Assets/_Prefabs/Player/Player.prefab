@@ -501,7 +501,7 @@ MonoBehaviour:
   walkSpeed: 2.5
   runSpeed: 5
   movementSpeed: 2.5
-  visibility: 0
+  visibility: 30
   attackTimer: 1
   health: 100
   blockMeter: 20
@@ -516,8 +516,14 @@ MonoBehaviour:
   backstabCollider: {fileID: 902482730203446801}
   layerMask:
     serializedVersion: 2
-    m_Bits: 4407
+    m_Bits: 4151
   sightSync: {fileID: 5072556860263421447}
+  blockIcon: {fileID: 0}
+  block: {fileID: 0}
+  visIcon: {fileID: 0}
+  activeBlockColor: {r: 0, g: 0, b: 0, a: 0}
+  activeVisColor: {r: 0, g: 0, b: 0, a: 0}
+  defaultColor: {r: 0, g: 0, b: 0, a: 0}
   secretSound: {fileID: 8300000, guid: 7e43753725a5d1d4f93128cce73481f1, type: 3}
   secretLights: {fileID: 595479157}
 --- !u!82 &6812986643950240956
