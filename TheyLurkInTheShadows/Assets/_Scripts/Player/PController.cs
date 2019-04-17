@@ -295,7 +295,7 @@ public class PController : MonoBehaviour
 
         RaycastHit floorHit;
 
-        if (Physics.Raycast(camRay, out floorHit))
+        if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, layerMask))
         {
             playerToMouse = floorHit.point - transform.position;
 
