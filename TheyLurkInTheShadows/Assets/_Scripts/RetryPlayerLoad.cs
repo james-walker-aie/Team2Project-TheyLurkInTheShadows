@@ -9,7 +9,7 @@ public class RetryPlayerLoad : MonoBehaviour
     public void OnButtonPressed()
     {
         string sceneName = PlayerPrefs.GetString("LastSceneLoaded");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(sceneName);
 
         Debug.Log("Button has been pressed");
     }

@@ -2711,7 +2711,7 @@ PrefabInstance:
     - target: {fileID: 7967046256685187655, guid: bd46fb5136c50674fb82c6bdb444df6f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.82
       objectReference: {fileID: 0}
     - target: {fileID: 7967046256685187655, guid: bd46fb5136c50674fb82c6bdb444df6f,
         type: 3}
@@ -2721,7 +2721,7 @@ PrefabInstance:
     - target: {fileID: 7967046256685187655, guid: bd46fb5136c50674fb82c6bdb444df6f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.09
+      value: -8.49
       objectReference: {fileID: 0}
     - target: {fileID: 7967046256685187655, guid: bd46fb5136c50674fb82c6bdb444df6f,
         type: 3}
@@ -2763,10 +2763,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7967046256685187655, guid: bd46fb5136c50674fb82c6bdb444df6f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7967046256685187655, guid: bd46fb5136c50674fb82c6bdb444df6f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7967046256685187654, guid: bd46fb5136c50674fb82c6bdb444df6f,
         type: 3}
       propertyPath: sceneName
-      value: GameWinScene
+      value: GameOverScene
       objectReference: {fileID: 0}
     - target: {fileID: 7967046256685187657, guid: bd46fb5136c50674fb82c6bdb444df6f,
         type: 3}
