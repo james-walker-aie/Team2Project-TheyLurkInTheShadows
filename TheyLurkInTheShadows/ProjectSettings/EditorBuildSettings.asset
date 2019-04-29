@@ -24,7 +24,7 @@ EditorBuildSettings:
     path: Assets/_Scenes/Menus/Menu1.unity
     guid: 2b66382216f554b4da778fc2ef8b37c3
   - enabled: 1
-    path: Assets/_Scenes/Testing/0.Unity
+    path: Assets/_Scenes/Lachlan Levels/0.Unity
     guid: 9e1800b060907534791d5f66b89470d4
   - enabled: 1
     path: Assets/_Scenes/Menus/GameWinScene.unity
