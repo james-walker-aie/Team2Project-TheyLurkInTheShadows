@@ -139,6 +139,7 @@ public class Sight : MonoBehaviour
                         default:
                             
                             GetComponentInParent<EnemyController>().playerInSight = false;
+                            Debug.Log("defualt" + hit.collider.name);
                             break;
 
                         

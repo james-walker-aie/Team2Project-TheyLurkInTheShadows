@@ -32,6 +32,7 @@ public class EnemyController : MonoBehaviour
     bool leap;
     bool runTuant = true;
     public bool hitP = false;
+    public bool playOnce = true;
 
     [Header("Floats")]
     public float health = 100;
@@ -79,8 +80,15 @@ public class EnemyController : MonoBehaviour
 
     [Header("Sounds")]
     public AudioClip[] footsteps;
-    public AudioClip special;
+    public AudioClip[] special;
+    public AudioClip[] beenHit;
+    public AudioClip[] attackGrunt;
+    public AudioClip[] M_beenHit;
+    public AudioClip[] M_attackGrunt;
+    public AudioClip S_block;
+    public AudioClip[] W_block;
     public AudioClip die;
+    public AudioClip nearbyMystic;
     AudioClip Footr;
     AudioClip Footl;
     AudioSource AS;
@@ -291,7 +299,7 @@ public class EnemyController : MonoBehaviour
                 //ResetAnimationBools();
                 //anim.SetBool("Guard", true);
                 //ChangeRotation();
-                if (playerInSight)
+                if (playerInSight && player.GetComponent<PController>().hidden == false)
                 {
                     state = State.AlertTime;
                 }
@@ -361,7 +369,8 @@ public class EnemyController : MonoBehaviour
                 break;
             case State.Patrol:
                 //go from point to point
-                if (playerInSight)
+                //Debug.Log("Patrol");
+                if (playerInSight && player.GetComponent<PController>().hidden == false)
                 {
                     state = State.AlertTime;
                 }
@@ -436,11 +445,11 @@ public class EnemyController : MonoBehaviour
                 break;
 
             case State.AlertTime:
-                
+               // Debug.Log("Alertime");
 
                 if (playerInSight)
                 {
-
+                   // Debug.Log("Player in sight: " + playerInSight);
                     IfMoving(lastPos);
                     Rotation();
                     if (timerReset == true)
@@ -459,6 +468,8 @@ public class EnemyController : MonoBehaviour
                 }
                 else
                 {
+                    //Debug.Log("Player not in sight: " + playerInSight);
+
                     transform.LookAt(null);
                     timerReset = true;
                     state = State.Patrol;
@@ -511,6 +522,7 @@ public class EnemyController : MonoBehaviour
                 break;
             case State.Searching:
                 //search near by hiding spots
+                Debug.Log("Searching");
                 run = .5f;
                 
                 if (searchInt > hidingSpots.Count || hidingSpots.Count <= 0)
@@ -738,7 +750,8 @@ public class EnemyController : MonoBehaviour
 
             case State.BeingAttacked:
 
-                if(Class == Type.Heavy)
+                playOnce = true;
+                if (Class == Type.Heavy)
                 {
                     HeavyAttackInd.SetActive(false);
                 }
@@ -798,6 +811,25 @@ public class EnemyController : MonoBehaviour
                 {
                     Rotation();
                 }
+                int rand = Random.Range(0, 2);
+
+                if (playOnce)
+                {
+                    AS.Stop();
+                    if(Class == Type.Mystic)
+                    {
+                        AS.clip = M_attackGrunt[rand];
+                    }
+                    else
+                    {
+
+                        AS.clip =attackGrunt[rand];
+                    }
+                    AS.Play();
+                    playOnce = false;
+
+                }
+                
                 Attack();
 
 
@@ -806,12 +838,32 @@ public class EnemyController : MonoBehaviour
                 {
                     nav.enabled = true;
                     anim.applyRootMotion = false;
+                    playOnce = true;
                     state = State.Combat;
                 }
                 break;
 
 
             case State.Block:
+
+                if (playOnce)
+                {
+                    if (Class != Type.Basic)
+                    {
+                        int rn = Random.Range(0, 3);
+                        AS.Stop();
+                        AS.clip = W_block[rn];
+                        AS.Play();
+                    }
+                    else
+                    {
+                        AS.Stop();
+                        AS.clip = S_block;
+                        AS.Play();
+                    }
+                    playOnce = false;
+                }
+                
                 ResetAnimationBools();
                 anim.SetBool("Block", true);
                 timer -= Time.deltaTime;
@@ -819,6 +871,7 @@ public class EnemyController : MonoBehaviour
                 {
                     nav.enabled = true;
                     ResetAnimationBools();
+                    playOnce = true;
                     state = State.Combat;
                 }
 
@@ -826,6 +879,16 @@ public class EnemyController : MonoBehaviour
                 break;
             case State.Blocked:
 
+                if (playOnce)
+                {
+                    int RN = Random.Range(0, 3);
+                    AS.Stop();
+                    AS.clip = W_block[RN];
+                    AS.Play();
+                    Debug.Log(playOnce);
+                    playOnce = false;
+                }
+                
                 ResetAnimationBools();
                 anim.SetBool("Blocked", true);
                 timer -= Time.deltaTime;
@@ -833,6 +896,7 @@ public class EnemyController : MonoBehaviour
                 {
                     nav.enabled = true;
                     ResetAnimationBools();
+                    playOnce = true;
                     state = State.Combat;
                 }
 
@@ -855,6 +919,25 @@ public class EnemyController : MonoBehaviour
                 break;
 
             case State.Hit:
+
+                if (playOnce)
+                {
+                    int Rand = Random.Range(0, 2);
+                    AS.Stop();
+                    if(Class == Type.Mystic)
+                    {
+                        AS.clip = M_beenHit[Rand];
+                        
+                    }
+                    else
+                    {
+                        AS.clip = beenHit[Rand];
+                        
+                    }
+                    AS.Play();
+                    playOnce = false;
+                }
+                
                 timer -= Time.deltaTime;
                 nav.enabled = false;
                 //anim.applyRootMotion = true;
@@ -874,7 +957,7 @@ public class EnemyController : MonoBehaviour
                         gameObject.GetComponent<Rigidbody>().mass = 1;
                         gameObject.GetComponent<Rigidbody>().drag = 1;
                         //gameObject.GetComponent<Rigidbody>().angularDrag = 0;
-                        gameObject.GetComponent<Rigidbody>().AddForce(-transform.forward * 20f * Time.deltaTime);
+                        //gameObject.GetComponent<Rigidbody>().AddForce(-transform.forward * 20f * Time.deltaTime);
                         //transform.Translate(transform.forward * 40 * Time.deltaTime);
                     }
                     anim.SetBool("Hit", true);
@@ -888,6 +971,7 @@ public class EnemyController : MonoBehaviour
                     gameObject.GetComponent<Rigidbody>().drag = 12;
                     gameObject.GetComponent<Rigidbody>().angularDrag = 4;
                     nav.enabled = true;
+                    playOnce = true;
                     state = State.Combat;
                 }
 
@@ -933,6 +1017,7 @@ public class EnemyController : MonoBehaviour
 
             case State.Dead:
                 //dead
+                AS.Stop();
                 AS.clip = die;
                 AS.Play();
                 if(sight != null)
@@ -1297,7 +1382,8 @@ public class EnemyController : MonoBehaviour
             {
                 
                 nearByEnemies[i].GetComponent<EnemyController>().alerted = true;
-                if (nearByEnemies[i].GetComponent<EnemyController>().state == State.Patrol || nearByEnemies[i].GetComponent<EnemyController>().state == State.Guard || nearByEnemies[i].GetComponent<EnemyController>().state == State.Searching || nearByEnemies[i].GetComponent<EnemyController>().state == State.AlertTime)
+                if (nearByEnemies[i].GetComponent<EnemyController>().state == State.Patrol || nearByEnemies[i].GetComponent<EnemyController>().state == State.Guard || 
+                    nearByEnemies[i].GetComponent<EnemyController>().state == State.Searching || nearByEnemies[i].GetComponent<EnemyController>().state == State.AlertTime)
                 {
                     
                     nearByEnemies[i].GetComponent<EnemyController>().state = State.Alert;
@@ -1335,7 +1421,7 @@ public class EnemyController : MonoBehaviour
                 {
                     HeavyAttackInd.SetActive(false);
                     Instantiate(Special, Smash.transform.position, this.transform.rotation);
-                    AS.clip = special;
+                    AS.clip = special[1];
                     AS.Play();
                     GetComponentInChildren<HitColliders>().Heavy2 = false;
                     hit = false;
@@ -1345,6 +1431,7 @@ public class EnemyController : MonoBehaviour
             {
                 timer = .8f;
                 player.GetComponent<PController>().blockMeter -= 4;
+                playOnce = true;
                 state = State.Blocked;
                 
             }
@@ -1404,7 +1491,7 @@ public class EnemyController : MonoBehaviour
             case Type.Basic:
                 if (timer <= 0)
                 {
-
+                    
                     switch (num)
                     {
                         case 0:
@@ -1451,6 +1538,7 @@ public class EnemyController : MonoBehaviour
                     switch (num)
                     {
                         case 0:
+                            
                             ResetAnimationBools();
                             if (leap)
                                 anim.SetBool("Lunge", true);
@@ -1460,6 +1548,9 @@ public class EnemyController : MonoBehaviour
                             lastAttack = 0;
                             break;
                         case 1:
+
+                            AS.clip = special[0];
+                            AS.Play();
                             ResetAnimationBools();
                             if (leap)
                                 anim.SetBool("Lunge", true);
@@ -1471,6 +1562,7 @@ public class EnemyController : MonoBehaviour
                             lastAttack = 1;
                             break;
                         case 2:
+                            
                             ResetAnimationBools();
                             if (leap)
                                 anim.SetBool("Lunge", true);
@@ -1480,6 +1572,7 @@ public class EnemyController : MonoBehaviour
                             lastAttack = 2;
                             break;
                         case 3:
+                           
                             ResetAnimationBools();
                             if (leap)
                                 anim.SetBool("Lunge", true);
@@ -1495,7 +1588,7 @@ public class EnemyController : MonoBehaviour
             case Type.Mystic:
                 if (timer <= 0)
                 {
-
+                    
                     switch (num)
                     {
                         case 0:
@@ -1623,11 +1716,11 @@ public class EnemyController : MonoBehaviour
 
     void FootR()
     {
-        int foot = Random.Range(0, 3);
+        /*int foot = Random.Range(0, 3);
         if(footsteps[foot] != Footl)
         {
-            AS.clip = footsteps[foot];
-            Footr = footsteps[foot];
+            //AS.clip = footsteps[foot];
+            ///Footr = footsteps[foot];
         }
         else
         {
@@ -1648,15 +1741,15 @@ public class EnemyController : MonoBehaviour
             }
         }
         
-        AS.Play();
+        //AS.Play();*/
     }
 
     void FootL()
     {
-        int foot = Random.Range(0, 3);
+        /*int foot = Random.Range(0, 3);
         if (footsteps[foot] != Footr)
         {
-            AS.clip = footsteps[foot];
+            //AS.clip = footsteps[foot];
             Footl = footsteps[foot];
         }
         else
@@ -1677,9 +1770,9 @@ public class EnemyController : MonoBehaviour
                     break;
             }
         }
-        AS.Play();
+        //AS.Play();*/
     }
 }
 
-    
+
 

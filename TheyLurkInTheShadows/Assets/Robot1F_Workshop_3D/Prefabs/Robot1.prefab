@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722801497}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.05, z: 1.954}
+  m_LocalPosition: {x: 0, y: 0.05, z: 1.28}
   m_LocalScale: {x: 0.063115, y: 0.06844133, z: 0.079938106}
   m_Children: []
   m_Father: {fileID: 4287198627233576}
@@ -1520,7 +1520,7 @@ GameObject:
   - component: {fileID: 2489635341117744355}
   - component: {fileID: 4101876190422644133}
   - component: {fileID: 51147709505070566}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Robot1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1647,8 +1647,28 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e7740ceb29bf4cc49aabf9cbf567c621, type: 3}
   - {fileID: 8300000, guid: a968ee46a00e27242ad0b1775967f994, type: 3}
   - {fileID: 8300000, guid: 6263503aa73ae2045ab2e1ae10fb5d2c, type: 3}
-  special: {fileID: 8300000, guid: 588dcc43c377ca44abd175ffd706cfa3, type: 3}
+  special:
+  - {fileID: 8300000, guid: 48f3cc2dfb6503e47a9ab73a92697e65, type: 3}
+  - {fileID: 8300000, guid: 588dcc43c377ca44abd175ffd706cfa3, type: 3}
+  beenHit:
+  - {fileID: 8300000, guid: 3fa089899ae5b78469d56cd8e7bf24b1, type: 3}
+  - {fileID: 8300000, guid: dcea5d7dc844d35429ea839c28114e80, type: 3}
+  attackGrunt:
+  - {fileID: 8300000, guid: a390f0226aaa7554e8c58a2d9f84afa8, type: 3}
+  - {fileID: 8300000, guid: 99043a27708893945a989f6f1142419b, type: 3}
+  M_beenHit:
+  - {fileID: 0}
+  - {fileID: 0}
+  M_attackGrunt:
+  - {fileID: 0}
+  - {fileID: 0}
+  S_block: {fileID: 0}
+  W_block:
+  - {fileID: 8300000, guid: d736c272b768fe34a9bac14b700ee5e2, type: 3}
+  - {fileID: 8300000, guid: 1d3248799533abd4884200dae7769203, type: 3}
+  - {fileID: 8300000, guid: 269916bbc3245ef478dff8e3fb895d79, type: 3}
   die: {fileID: 8300000, guid: 91380251091cf9841aa0e7562fbd88a5, type: 3}
+  nearbyMystic: {fileID: 0}
   hidingSpots: []
   patrolSpots:
   - {fileID: 0}
@@ -2578,7 +2598,7 @@ MonoBehaviour:
     m_Bits: 4294966271
   layerMask2:
     serializedVersion: 2
-    m_Bits: 823
+    m_Bits: 2359
 --- !u!1001 &2128656619611657419
 PrefabInstance:
   m_ObjectHideFlags: 0

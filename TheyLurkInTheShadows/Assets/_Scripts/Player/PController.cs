@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class PController : MonoBehaviour
@@ -38,7 +39,17 @@ public class PController : MonoBehaviour
     public GameObject attackCollider;
     public GameObject backstabCollider;
 
+    public LayerMask layerMask = ~(1 << 11);
+
     public Transform sightSync;
+
+    [SerializeField] Graphic blockIcon;
+    [SerializeField] Image block;
+    [SerializeField] Graphic visIcon;
+  
+    public Color activeBlockColor;
+    public Color activeVisColor;
+    public Color defaultColor;
 
     #region SECRET
 
@@ -58,6 +69,11 @@ public class PController : MonoBehaviour
     {
         playerRB = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
+        //blockIcon = GetComponent<Graphic>();
+        //visIcon = GetComponent<Graphic>();
+        activeBlockColor = Color.blue;
+        activeVisColor = Color.yellow;
+        defaultColor = Color.white;
 
     }
 
@@ -71,6 +87,15 @@ public class PController : MonoBehaviour
         playerAnimator.SetFloat("MovementBlendY", ((Quaternion.Euler(0, 315, 0) * playerRB.rotation) * new Vector3(-Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"))).normalized.z);
 
         PlayerRotation();
+
+        RaycastHit hit;
+
+        if(Physics.Raycast(transform.position, Vector3.down,out hit, 3,layerMask))
+        {
+            Debug.DrawRay(transform.position, Vector3.down, Color.red);
+            Debug.Log("Hit: " + hit.collider.name + " :positon: " + hit.collider.transform.position + " :tag: " + hit.collider.tag);
+            transform.position = new Vector3(transform.position.x, hit.point.y + 0.99f , transform.position.z);
+        }
 
         if (Input.GetKey(KeyCode.W) == true || Input.GetKey(KeyCode.A) == true || Input.GetKey(KeyCode.S) == true || Input.GetKey(KeyCode.D) == true)
         {
@@ -133,18 +158,21 @@ public class PController : MonoBehaviour
             blockMeter -= Time.deltaTime;
             playerAnimator.SetBool("IsBlocking", true);
 
+            blockIcon.color = activeBlockColor;
+            block.fillAmount = blockCooldown / blockMeter;
+
             if (blockMeter < 0)
             {
                 blockLock = true;
                 blockCooldown = 10;
             }
-
-
         }
         else
         {
             isBlocking = false;
             playerAnimator.SetBool("IsBlocking", false);
+            blockIcon.color = defaultColor;
+
             if (blockMeter < 20f)
             {
                 blockMeter += Time.deltaTime;
@@ -284,7 +312,7 @@ public class PController : MonoBehaviour
 
         RaycastHit floorHit;
 
-        if (Physics.Raycast(camRay, out floorHit))
+        if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, layerMask))
         {
             playerToMouse = floorHit.point - transform.position;
 
@@ -305,6 +333,7 @@ public class PController : MonoBehaviour
         if (other.tag == "Bush")
         {
             hidden = true;
+            visIcon.color = defaultColor;
         }
 
         if (other.gameObject.tag == "BackStab")
@@ -315,14 +344,17 @@ public class PController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "BackStab")
-        {
-            hidden = false;
-        }
 
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "BackStab")
         {
             canBackstab = false;
         }
+
+        if (other.tag == "Bush")
+        {
+            hidden = false;
+            visIcon.color = activeVisColor;
+        }
+
     }
 }

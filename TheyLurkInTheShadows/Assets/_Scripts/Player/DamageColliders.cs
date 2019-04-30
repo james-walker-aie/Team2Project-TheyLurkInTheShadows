@@ -37,14 +37,39 @@ public class DamageColliders : MonoBehaviour
         {
             if (GetComponentInParent<PController>().isBackstabbing == true)
             {
-                other.gameObject.GetComponent<EnemyController>().health = 0;
+                if (other.GetComponent<PriestController>())
+                {
+                    other.gameObject.GetComponent<PriestController>().health = 0;
+                }
+                else
+                {
+                    other.gameObject.GetComponent<EnemyController>().health = 0;
+                }
+                
             }
 
-            
-            if(other.GetComponent<EnemyController>().state != EnemyController.State.Dead && !GetComponentInParent<PController>().isBackstabbing)
+            if (other.GetComponent<PriestController>())
             {
-                other.GetComponent<EnemyController>().state = EnemyController.State.BeingAttacked;
+                other.GetComponent<PriestController>().health -= 35;
+                other.GetComponent<PriestController>().hit = true;
+                other.GetComponent<PriestController>().state = PriestController.State.Run;
             }
+            else
+            if(other.GetComponent<EnemyController>().state != EnemyController.State.Dead)
+            {
+                if (other.GetComponent<EnemyController>().state == EnemyController.State.Guard || other.GetComponent<EnemyController>().state == EnemyController.State.AlertTime || 
+                    other.GetComponent<EnemyController>().state == EnemyController.State.Patrol || other.GetComponent<EnemyController>().state == EnemyController.State.Hit)
+                {
+                    other.GetComponent<EnemyController>().playOnce = true;
+                    other.GetComponent<EnemyController>().state = EnemyController.State.Hit;
+                }
+                else
+                if (!GetComponentInParent<PController>().isBackstabbing)
+                {
+                    other.GetComponent<EnemyController>().state = EnemyController.State.BeingAttacked;
+                }
+            }
+  
 
             AudioClip clip = GetRandomClip();
             audioSource.PlayOneShot(clip);

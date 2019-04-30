@@ -203,8 +203,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 11, y: 0.5}
-  m_SizeDelta: {x: 271.6, y: 233}
+  m_AnchoredPosition: {x: 13.6, y: 6.9}
+  m_SizeDelta: {x: 291.6, y: 249.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &239592712
 MonoBehaviour:
@@ -228,7 +228,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 9d0ec2a0dec195a4e99317fded15db0e, type: 3}
-    m_FontSize: 12
+    m_FontSize: 11
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -240,8 +240,10 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Creators:\n- Thomas Collyer\n- James Comninos\n- Thomas Ellis\n- Lachlan
-    Morgan\n- Sian Sallway\n\nMusic & Sound:\n- \n\nAssets:\n- Font ~ \u2018Voice
-    In My Head\u2019 by Chequered Ink\n\n\n"
+    Morgan\n- Sian Sallway\n\nMusic & Sound Effects:\n- ZapSplat.com\n- AIRGLOW by
+    S.A.M.\r\n- Raydar by Tenebre MCMLXXXIV\r\n- Sagittarius V by Lucidator\n\nAssets:\n-
+    Sanctuary asset pack by PURPLE JUMP\n- Font: \u2018Voice In My Head\u2019 by Chequered
+    Ink\n- UI Icons from Game-icons.net\n\n\n"
 --- !u!222 &239592713
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -285,7 +287,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 114, y: -97}
+  m_AnchoredPosition: {x: 96, y: -97}
   m_SizeDelta: {x: 196.8, y: 47.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &467238464
@@ -342,7 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0.990566, g: 0.014017418, b: 0.7295978, a: 0.5}
+  m_EffectColor: {r: 0.41176474, g: 0.5803922, b: 1, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!1001 &523197432
@@ -763,7 +765,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
-  m_Color: {r: 1, g: 0.22352943, b: 1, a: 1}
+  m_Color: {r: 0.3921569, g: 0.6, b: 1, a: 1}
   m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
@@ -1183,7 +1185,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
-  m_Color: {r: 1, g: 0.22352943, b: 1, a: 1}
+  m_Color: {r: 0.3921569, g: 0.63529414, b: 1, a: 1}
   m_Intensity: 5
   m_Range: 15
   m_SpotAngle: 30

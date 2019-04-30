@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 3012555183351079697}
   - component: {fileID: 6623536058627583574}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerController
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,13 +132,22 @@ MonoBehaviour:
   visibility: 0
   attackTimer: 1
   health: 100
+  blockMeter: 20
+  blockCooldown: 5
   hidden: 0
+  isBlocking: 0
+  isBackstabbing: 0
   lights: []
   playerToMouse: {x: 0, y: 0, z: 0}
   playerAnimator: {fileID: 5072556860254337515}
   attackCollider: {fileID: 902482730335278278}
   backstabCollider: {fileID: 902482728882727757}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 61751
   sightSync: {fileID: 5072556860263421447}
+  secretSound: {fileID: 0}
+  secretLights: {fileID: 0}
 --- !u!82 &6812986643950240956
 AudioSource:
   m_ObjectHideFlags: 0
@@ -251,6 +260,7 @@ MonoBehaviour:
     type: 3}
   particleTargetLocation: {fileID: 0}
   blinkSound: {fileID: 8300000, guid: 74cf7a340ddf3e44ba6a8014fac47ef2, type: 3}
+  source: {fileID: 0}
   volume: 1
 --- !u!114 &6623536058627583574
 MonoBehaviour:
@@ -269,8 +279,11 @@ MonoBehaviour:
   cam: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
+  isBlinking: 0
   invalid: 0
   AreaMaskCheck: 1
+  cameraLag: 0
+  postProcessingAnim: {fileID: 0}
   timerDelay: 5
   MaxRange: 15
   currentTime: 0
@@ -278,6 +291,8 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 4407
+  playerBlinkIcon: {fileID: 0}
+  isPlayer: 0
 --- !u!1 &902482730203446801
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +306,7 @@ GameObject:
   - component: {fileID: 902482730203446893}
   - component: {fileID: 902482730203446802}
   - component: {fileID: 902482730203446803}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BackstabDamageCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -382,7 +397,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fde951404949164eaf767974df773d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageConst: 0
   damage: 200
+  damageCollider: {fileID: 0}
+  clips: []
 --- !u!1 &902482730256659759
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,7 +414,7 @@ GameObject:
   - component: {fileID: 902482730256659755}
   - component: {fileID: 902482730256659752}
   - component: {fileID: 902482730256659753}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BasicDamageCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -487,7 +505,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fde951404949164eaf767974df773d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageConst: 0
   damage: 20
+  damageCollider: {fileID: 0}
+  clips: []
 --- !u!1 &5072556860263844385
 GameObject:
   m_ObjectHideFlags: 0
@@ -3109,10 +3130,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: dagger4_fbx (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: 9582ca0ba3449ee41afe40e0202ba274, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 2301645db36fdc44f98f7484166cd2f5, type: 2}
     - target: {fileID: 400000, guid: 9582ca0ba3449ee41afe40e0202ba274, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.062
@@ -3165,6 +3182,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.8052342
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 9582ca0ba3449ee41afe40e0202ba274, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2301645db36fdc44f98f7484166cd2f5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9582ca0ba3449ee41afe40e0202ba274, type: 3}
 --- !u!1 &902482728882727757 stripped
@@ -3190,10 +3211,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: dagger4_fbx (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: 9582ca0ba3449ee41afe40e0202ba274, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 2301645db36fdc44f98f7484166cd2f5, type: 2}
     - target: {fileID: 400000, guid: 9582ca0ba3449ee41afe40e0202ba274, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.076
@@ -3246,6 +3263,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.8052343
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 9582ca0ba3449ee41afe40e0202ba274, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2301645db36fdc44f98f7484166cd2f5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9582ca0ba3449ee41afe40e0202ba274, type: 3}
 --- !u!4 &902482730334849254 stripped
